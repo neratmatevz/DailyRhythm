@@ -107,11 +107,59 @@ const initDatabase = () => {
 
                 // Inserting a sample row into the "dosezek" table
                 /*tx.executeSql(
-                    `INSERT INTO dosezek (naziv, opis, datumOsvojitve) VALUES (?, ?, ?);`,
+                    `INSERT INTO dosezek (naziv, opis, datumOsvojitve) VALUES (?, ?, ?),(?, ?, ?),(?, ?, ?),(?, ?, ?),(?, ?, ?),(?, ?, ?),(?, ?, ?),(?, ?, ?),(?, ?, ?),(?, ?, ?);`,
                     [
-                        'SampleDosezek',      // Replace with the desired naziv
-                        'Description of Dosezek', // Replace with the desired opis
-                        '2024-01-08'               // Replace with the desired level value
+                        'Setup your profile', 'Looking fresh', null,
+                        'First task added', 'You added your first task!', null,
+                        'Deleted task', 'Deleting is also fine I guess :(', null,
+                        'FirstWeeklyPoints', 'You got your first points! Congrats!', null,
+                        '1000 points', 'Look at you go!', null,
+                        '5000 points', 'A lotta points!', null,
+                        '25000 points', 'Damn', null,
+                        'Complete 10 tasks', 'LETSGOOO', null,
+                        'Complete 30 Tasks', 'NICE', null,
+                        'Complete 100 tasks', 'WOOOOOO', null
+                    ],
+                    (_, insertResult) => {
+                        // Success callback for the INSERT statement
+                        console.log('Row inserted successfully:', insertResult);
+                    },
+                    (_, error) => {
+                        // Error callback for the INSERT statement
+                        console.error('Error inserting row:', error);
+                    }
+                );*/
+            },
+            (_, error) => {
+                // Error callback for table creation
+                console.error('Error creating table:', error);
+            }
+        );
+
+        //Table leveli
+        tx.executeSql(
+            `CREATE TABLE IF NOT EXISTS level (
+                      id INTEGER PRIMARY KEY AUTOINCREMENT,
+                      od INTEGER,
+                      do INTEGER,
+                      level INTEGER,
+                      naziv VARCHAR(45)
+            );`,
+            [],
+            (_, result) => {
+                // Success callback
+                console.log('Table level created successfully');
+
+                // Inserting a sample row into the "dosezek" table
+                /*tx.executeSql(
+                    `INSERT INTO level (od, do, level, naziv) VALUES (?, ?, ?, ?),(?, ?, ?, ?),(?, ?, ?, ?),(?, ?, ?, ?),(?, ?, ?, ?),(?, ?, ?, ?);`,
+                    [
+                        0, 1000, 1, "Bronze",
+                        1001, 3000, 2, "Silver",
+                        3001, 6000, 3, "Gold",
+                        6001, 10000, 4, "Platinum",
+                        10001, 15000, 5, "Diamond",
+                        15001, 25000, 6, "Emerald"
                     ],
                     (_, insertResult) => {
                         // Success callback for the INSERT statement
