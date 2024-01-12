@@ -1,13 +1,15 @@
 import { Stack } from 'expo-router';
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, Text } from 'react-native';
+import { SafeAreaView, Text, View } from 'react-native';
 import HomeHeaderBtn from '../Components/Common/HeaderBtn/HeaderBtn';
 
 import db from '../Assets/Database/db';
 import TopRow from '../Components/Profile/TopRow/TopRow';
+import Achievements from '../Components/Profile/Achievements/Achievements';
 
+import styles from '../Components/Profile/TopRow/TopRow.style';
+import { ScrollView } from 'react-native-gesture-handler';
 
-//TODO: Ime levela poveži z barvo backrounda
 
 
 const Profile = () => {
@@ -75,7 +77,11 @@ const Profile = () => {
                     }
                 }}
             />
-            <TopRow profile={profile} levelName={levelName}/>
+            <ScrollView>
+                <TopRow profile={profile} levelName={levelName} />
+                <Achievements />
+            </ScrollView>
+
         </SafeAreaView>
     )
 }
