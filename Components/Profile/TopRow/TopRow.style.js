@@ -6,14 +6,14 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#FFF',
     },
-    header: {
-        backgroundColor: PROFILECOLORS.bronze,
+    header: (color) => ({
+        backgroundColor: PROFILECOLORS[color] || PROFILECOLORS.Emerald,
         height: 250,
         flexDirection: 'row',
         alignItems: 'center',
         paddingTop: 5,
         paddingHorizontal: 16,
-    },
+    }),
     avatar: {
         width: 130,
         height: 130,

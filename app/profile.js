@@ -75,7 +75,7 @@ const Profile = () => {
                     }
                 }}
             />
-            <TopRow profile={profile}/>
+            <TopRow profile={profile} levelName={levelName}/>
         </SafeAreaView>
     )
 }

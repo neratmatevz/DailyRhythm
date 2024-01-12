@@ -3,7 +3,7 @@ import { Text, View, Image, TouchableOpacity } from 'react-native';
 
 import styles from './TopRow.style';
 
-const TopRow = ({ profile }) => {
+const TopRow = ({ profile, levelName }) => {
     const [showEmail, setShowEmail] = useState(false);
 
     const toggleEmailVisibility = () => {
@@ -12,7 +12,7 @@ const TopRow = ({ profile }) => {
 
     return (
         <View style={styles.container}>
-            <View style={styles.header}>
+            <View style={styles.header(levelName)}>
                 <Image style={styles.avatar} source={require("../../../Assets/Icons/person.png")} />
                 <View style={styles.informationContainer}>
                     <Text style={styles.name}>{profile.upIme}</Text>
