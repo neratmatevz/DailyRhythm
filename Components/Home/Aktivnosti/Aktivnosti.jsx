@@ -5,17 +5,21 @@ import * as SQLite from 'expo-sqlite';
 import db from '../../../Assets/Database/db';
 import styles from './Aktivnosti.style';
 import moment from 'moment';
+import Popup from './PopupAktivnost';
 
 function Aktivnosti({ selectedDate, selectedweekday }) {
 
     const [formattedSelectedDate, setFormattedSelectedDate] = useState("");
     const [activities, setActivities] = useState([]);
+    const [popupVisible, setPopupVisible] = useState(false);
+    const [selectedActivity, setSelectedActivity] = useState(null);
+
 
     useEffect(() => {
 
         const date = moment(selectedDate, 'MMMM DD, YYYY').format('YYYY-MM-DD');
         setFormattedSelectedDate(date);
-        
+
     }, [selectedDate]);
 
     // Prikaži aktivnosti iz baze
@@ -40,8 +44,18 @@ function Aktivnosti({ selectedDate, selectedweekday }) {
     }, [formattedSelectedDate]);
 
 
-    //
+    const handleActivityClick = (activity) => {
+        setSelectedActivity(activity);
+        setPopupVisible(true);
+        console.log(activity.ime);
+    };
 
+    const handleClosePopup = () => {
+        setPopupVisible(false);
+        
+    };
+    
+    
     const handleAddActivity = () => {
         // Handle logic for adding activity
         console.log('Adding activity for date:', selectedweekday);
@@ -54,20 +68,28 @@ function Aktivnosti({ selectedDate, selectedweekday }) {
         // Handle logic for removing activity
         console.log('Removing activity for date:', selectedweekday);
     };
-
+    
     return (
         <View>
             {/* Prikaz izbranega datuma */}
             <Text style={styles.prikazDatuma}>{selectedDate}</Text>
 
+            <View>
             {/* Prikaz Aktivnosti  */}
             <View style={styles.container}>
                 {activities.map((activity) => (
-                    <View key={activity.id} style={styles.activityContainer}>
-                        <Text>{`Activity: ${activity.ime}`}</Text>
-                        <Text>{`Start Time: ${activity.uraZacetka}`}</Text>
-                    </View>
+                    <TouchableOpacity
+                        key={activity.id}
+                        onPress={() => handleActivityClick(activity)}
+                        style={styles.activityContainer}
+                    >
+                        <Text style={styles.activityText}>{`${activity.ime} - ${activity.uraZacetka}`}</Text>
+                    </TouchableOpacity>
                 ))}
+            </View>
+
+            {/* Popup za izbran activity */}
+            <Popup visible={popupVisible} onClose={handleClosePopup} activity={selectedActivity} />
             </View>
 
 
