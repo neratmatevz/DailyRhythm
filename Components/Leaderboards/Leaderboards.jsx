@@ -11,7 +11,7 @@ const Leaderboard = () => {
         const fetchedData = [
             { id: '1', name: 'Alice', score: 1200, profilePicture: require('../../Assets/Icons/person.png') },
             { id: '2', name: 'Bob', score: 1100, profilePicture: require('../../Assets/Icons/person.png') },
-            { id: '3', name: 'Mark', score: 4200, profilePicture: require('../../Assets/Icons/person.png') },
+            { id: '3', name: 'Mark', score: 4201, profilePicture: require('../../Assets/Icons/person.png') },
             { id: '4', name: 'Amanda', score: 1500, profilePicture: require('../../Assets/Icons/person.png') },
             { id: '5', name: 'John', score: 1700, profilePicture: require('../../Assets/Icons/person.png') },
             { id: '7', name: 'Lily', score: 1200, profilePicture: require('../../Assets/Icons/person.png') },
@@ -54,7 +54,7 @@ const Leaderboard = () => {
 
 const styles = StyleSheet.create({
     container: {
-        height: '100%', // Set a specific height or use '100%' to fill the available height
+        height: '100%', 
         backgroundColor: "#f5f5f5",
         
     },

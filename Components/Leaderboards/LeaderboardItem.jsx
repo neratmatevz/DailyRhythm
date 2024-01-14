@@ -1,10 +1,59 @@
-import React, { useState } from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { View, Text, Image, StyleSheet, TouchableOpacity, Animated } from 'react-native';
 import UserPopUp from './UserPopUp';
-
 
 const LeaderboardItem = ({ rank, user }) => {
     const [modalVisible, setModalVisible] = useState(false);
+
+    const animatedValue = useRef(new Animated.Value(0)).current;
+
+    useEffect(() => {
+        if (rank <= 3) {
+            Animated.loop(
+                Animated.sequence([
+                    Animated.timing(animatedValue, {
+                        toValue: 1,
+                        duration: 1500,
+                        useNativeDriver: false,
+                    }),
+                    Animated.timing(animatedValue, {
+                        toValue: 0,
+                        duration: 1500,
+                        useNativeDriver: false,
+                    }),
+                ])
+            ).start();
+        }
+    }, [animatedValue, rank]);
+
+
+    const getGradientColors = (rank) => {
+        switch (rank) {
+            case 1:
+                return animatedValue.interpolate({
+                    inputRange: [0, 0.5, 1],
+                    outputRange: ['gold', 'orange', 'gold'],
+                });
+            case 2:
+                return animatedValue.interpolate({
+                    inputRange: [0, 0.5, 1],
+                    outputRange: ['silver', 'gray', 'silver'],
+                });
+            case 3:
+                return animatedValue.interpolate({
+                    inputRange: [0, 0.5, 1],
+                    outputRange: ['#cd7f32', '#8B4513', '#cd7f32'],
+                });
+            default:
+                return animatedValue.interpolate({
+                    inputRange: [0, 0.5, 1],
+                    outputRange: ['gold', 'orange', 'gold'],
+                });
+        }
+    };
+    
+    const gradientColors = getGradientColors(rank);
+    
 
     const handlePress = () => {
         setModalVisible(true);
@@ -16,29 +65,26 @@ const LeaderboardItem = ({ rank, user }) => {
 
     return (
         <TouchableOpacity onPress={handlePress} activeOpacity={0.8}>
-            <View style={[styles.container, getRankStyle(rank)]}>
-                <Text style={styles.rank}>{rank}</Text>
+            <Animated.View style={[styles.container, getRankStyle(rank, gradientColors)]}>
+                <Text style={styles.rank}>#{rank}</Text>
                 <Image source={user.profilePicture} style={styles.profilePic} />
                 <Text style={styles.name}>{user.name}</Text>
                 <Text style={styles.score}>{user.score}</Text>
 
-                <UserPopUp
-                    user={user}
-                    visible={modalVisible}
-                    onClose={closeModal} />
-            </View>
+                <UserPopUp user={user} visible={modalVisible} onClose={closeModal} />
+            </Animated.View>
         </TouchableOpacity>
     );
 };
 
-const getRankStyle = (rank) => {
+const getRankStyle = (rank, gradientColors) => {
     switch (rank) {
         case 1:
-            return styles.gold;
+            return { ...styles.gold, backgroundColor: gradientColors };
         case 2:
-            return styles.silver;
+            return { ...styles.silver, backgroundColor: gradientColors };
         case 3:
-            return styles.bronze;
+            return { ...styles.bronze, backgroundColor: gradientColors };
         default:
             return styles.defaultRank;
     }
@@ -50,8 +96,9 @@ const styles = StyleSheet.create({
         padding: 10,
         alignItems: 'center',
         justifyContent: 'space-between',
-        backgroundColor: '#fff', 
-        borderRadius: 8,
+        borderRadius: 15,
+        borderWidth: 3,
+        borderColor: 'black',
         marginVertical: 5,
     },
     rank: {
@@ -81,29 +128,6 @@ const styles = StyleSheet.create({
     },
     score: {
         marginLeft: 10,
-    },
-    modalContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    },
-    modalContent: {
-        backgroundColor: '#fff',
-        padding: 20,
-        borderRadius: 10,
-        alignItems: 'center',
-    },
-    modalTitle: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        marginBottom: 10,
-    },
-    modalProfilePic: {
-        width: 80,
-        height: 80,
-        borderRadius: 40,
-        marginBottom: 10,
     },
 });
 
