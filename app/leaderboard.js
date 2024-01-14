@@ -4,32 +4,35 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Stack, useRouter } from "expo-router";
 import HomeHeaderBtn from "../Components/Common/HeaderBtn/HeaderBtn";
 import Leaderboards from "../Components/Leaderboards/Leaderboards";
-
+import { FlatList } from "react-native-gesture-handler";
 
 const Leaderboard = () => {
     const router = useRouter();
-    const [data, setData] = useState([]);
 
     return (
         <SafeAreaView>
             <Stack.Screen
                 options={{
+                    headerLeft: () => <View />,
+                    headerTitle: "Leaderboard",
+                    headerTitleAlign: 'center',
                     headerRight: () => (
+                        
                         <HomeHeaderBtn
-                            icon={require("../Assets/Icons/left.png")}
+                            icon={require("../Assets/Icons/right.png")}
                             dimension="80%"
-                            rotation="180"
                             handlePress={() => router.push("/home")}
                         />
                     ),
-                    headerTitle: "Leaderboard",
                 }}
-
             />
-            <Leaderboards></Leaderboards>
-            
+        
+            <Leaderboards />
         </SafeAreaView>
     );
+
 }
+
+
 
 export default Leaderboard;
