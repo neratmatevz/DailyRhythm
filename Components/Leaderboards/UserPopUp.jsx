@@ -36,6 +36,7 @@ const UserPopUp = ({ user, visible, onClose }) => {
                     horizontal
                 />
                     <Button title="Close" onPress={onClose} />
+
                 </View>
             </View>
         </Modal>
