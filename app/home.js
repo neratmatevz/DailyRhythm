@@ -11,8 +11,6 @@ const Home = () => {
     const router = useRouter();
     const [data, setData] = useState([]);
 
-
-
     return (
         <SafeAreaView>
             <Stack.Screen
@@ -21,6 +19,7 @@ const Home = () => {
                         <HomeHeaderBtn
                             icon={require("../Assets/Icons/menu.png")}
                             dimension="60%"
+                            handlePress={() => router.push("/leaderboard")}
                         />
                     ),
                     headerRight: () => (
