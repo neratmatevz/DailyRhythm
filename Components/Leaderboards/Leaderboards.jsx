@@ -12,6 +12,10 @@ const Leaderboard = () => {
         const fetchedData = [
             { id: '1', name: 'Alice', score: 1200, profilePicture: '../Assets/Icons/person.png' },
             { id: '2', name: 'Bob', score: 1100, profilePicture: '../Assets/Icons/person.png' },
+            { id: '3', name: 'Alice', score: 1200, profilePicture: '../Assets/Icons/person.png' },
+            { id: '4', name: 'Bob', score: 1100, profilePicture: '../Assets/Icons/person.png' },
+            { id: '5', name: 'Alice', score: 1200, profilePicture: '../Assets/Icons/person.png' },
+            { id: '6', name: 'Bob', score: 1100, profilePicture: '../Assets/Icons/person.png' },
         ];
 
         setTimeout(() => {
