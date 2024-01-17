@@ -24,16 +24,16 @@ const initDatabase = () => {
                 // Success callback
                 console.log('Table aktivnost created successfully');
                 // Inserting a sample row
-               /* tx.executeSql(
+              /*  tx.executeSql(
                     `INSERT INTO aktivnost (datum, uraZacetka, uraZakljucka, ime, opis, stTock, datumUraOpomnika, opravljena) VALUES (?, ?, ?, ?, ?, ?, ?, ?);`,
                     [
-                        '2024-01-14',   // Replace with the desired date
+                        '2024-01-21',   // Replace with the desired date
                         '10:00:00',     // Replace with the desired start time
                         '12:00:00',     // Replace with the desired end time
-                        'Sample Activity4',
+                        'Sample Activity5',
                         'Description of the activity',
                         5,              // Replace with the desired number
-                        '2024-01-08 11:00:00', // Replace with the desired date and time for the reminder
+                        '2024-01-20 11:00:00', // Replace with the desired date and time for the reminder
                         0               // Replace with 1 if the activity is completed, 0 otherwise
                     ],
                     (_, insertResult) => {
