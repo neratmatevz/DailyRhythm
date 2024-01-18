@@ -1,48 +1,59 @@
 import React from 'react';
-import { View, Text, Modal, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Modal, TouchableOpacity } from 'react-native';
+import styles from './PopupAktivnost.style';
 
 
 function Popup({ visible, onClose, activity }) {
-
     if (!visible || !activity) {
-        return null; 
-      }
+        return null;
+    }
+
+    const Box = ({ title, children }) => (
+        <View style={styles.box}>
+            <Text style={styles.boxTitle}>{title}</Text>
+
+            {children}
+        </View>
+    );
 
     return (
         <Modal transparent visible={visible} onRequestClose={onClose}>
             <View style={styles.popupContainer}>
                 <View style={styles.popupContent}>
-                    <TouchableOpacity onPress={onClose}>
-                        <Text style={styles.closeButton}>Close</Text>
-                    </TouchableOpacity>
-                    {/* Prikaz */}
-                    <Text style={styles.activityText}>{`Activity: ${activity.ime}`}</Text>
+                    <View style={styles.closeButtonContainer}>
+                        <TouchableOpacity onPress={onClose}>
+                            <Text style={styles.closeButton}>X</Text>
+                        </TouchableOpacity>
+                    </View>
+                    {/* Activity Name Box */}
+                    <Box title="Activity">
+                        <Text style={styles.detailValue}>{activity.ime}</Text>
+                    </Box>
 
+                    {/* Date Box */}
+                    <Box title="Schedule">
+                        <Text style={styles.detailValue}>Date: {activity.datum}</Text>
+                        <Text style={styles.detailValue}>Start Time: {activity.uraZacetka}</Text>
+                        <Text style={styles.detailValue}>End Time: {activity.uraZakljucka}</Text>
+                    </Box>
+
+                    {/* Other Details */}
+                    <Box title="Description">
+                        <Text style={styles.detailValue}>{activity.opis}</Text>
+                    </Box>
+                    <Box title="Points">
+                        <Text style={styles.detailValue}>{activity.stTock}</Text>
+                    </Box>
+                    <Box title="Reminder Date">
+                        <Text style={styles.detailValue}>{activity.datumUraOpomnika}</Text>
+                    </Box>
+                    <Box title="Completed">
+                        <Text style={styles.detailValue}>{activity.opravljena ? 'Yes' : 'No'}</Text>
+                    </Box>
                 </View>
             </View>
         </Modal>
     );
 }
-
-const styles = StyleSheet.create({
-    popupContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    },
-    popupContent: {
-        backgroundColor: 'white',
-        padding: 16,
-        borderRadius: 8,
-        width: 300,
-    },
-    closeButton: {
-        color: 'blue',
-        position: 'relative',
-        top: 0,
-        right: 0,
-    },
-});
 
 export default Popup;

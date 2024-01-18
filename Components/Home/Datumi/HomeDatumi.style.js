@@ -5,14 +5,23 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingHorizontal: 16,
-        marginHorizontal: 5,
+        marginHorizontal: 1,
     },
     picker: {
-        borderWidth: 2,
-        borderColor: '#ccc',
-        borderRadius: 8,
-        padding: 8,
-        margin: 4,
+        width: 50, // Set a fixed width for all pickers
+        height: 50, // Set a fixed height for all pickers
+        backgroundColor: '#f5f5f5', // Very light gray background color
+        borderRadius: 10, // Rounded corners
+        alignItems: 'center', // Center content horizontally
+        justifyContent: 'center', // Center content vertically
+        shadowColor: '#000', // Shadow color
+        shadowOffset: {
+            width: 0,
+            height: 3, // Stronger shadow (adjust height as needed)
+        },
+        shadowOpacity: 0.7, // Stronger shadow opacity
+        shadowRadius: 4, // Shadow radius
+        elevation: 8, // Android shadow
     },
     itemRow: {
         flexDirection: 'row',

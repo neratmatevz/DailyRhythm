@@ -10,72 +10,83 @@ const styles = StyleSheet.create({
         padding: 16,
         margin: 8,
     },
+
+    prikazDatuma: {
+      paddingLeft: 15,
+      paddingTop: 10,  
+    },
+
     activityContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        borderBottomWidth: 1,
-        borderBottomColor: '#ddd',
+        borderWidth: 2,
+        borderColor: '#ddd',
         marginBottom: 8,
-        backgroundColor: '#f8f8f8', // Light background color
-        borderRadius: 8,
-        shadowColor: '#000',
+        backgroundColor: '#e7f5ff', // Light blue background color
+        borderRadius: 10, // Soft rounded corners for a softer look
+        shadowColor: '#000', // Shadow color for the floating effect
         shadowOffset: {
             width: 0,
-            height: 2,
+            height: 4, // Slightly elevated shadow for a floating look
         },
-        shadowOpacity: 0.2,
-        shadowRadius: 2,
-        elevation: 2,
+        shadowOpacity: 0.3, // Subtle shadow opacity
+        shadowRadius: 6, // Soft shadow spread
+        elevation: 6, // Elevation for Android to create depth
+        paddingVertical: 15,
+        paddingRight: 15,
     },
+
     activityTextContainer: {
         flex: 1,
         paddingHorizontal: 12,
     },
+
+    activityText: {
+        fontSize: 15,
+        fontWeight: 'bold',
+        color: '#2c3e50', // Adjust the color as needed
+    },
+
     deleteButtonContainer: {
         marginRight: 15, // Adjust the margin as needed
     },
-    activityText: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        margin: 10,
-        paddingRight: 10,
-    },
+
+
     activityTime: {
-        fontSize: 14,
-        color: '#555',
-    },
-    deleteButton: {
-        paddingVertical: 8,
-        paddingHorizontal: 12,
-        backgroundColor: 'red',
-        borderRadius: 8,
-        
-    },
-    deleteButtonText: {
-        color: 'white',
-        fontWeight: 'bold',
-    },
-    editButtonContainer: {
-        marginRight: 10, // Adjust the margin as needed
-    },
-    editButton: {
-        paddingVertical: 8,
-        paddingHorizontal: 16,
-        backgroundColor: 'blue', // Change the color as needed
-        borderRadius: 8,
-    },
-    editButtonText: {
-        color: 'white',
+        fontSize: 16,
+        color: '#34495e', // Slightly different color for contrast
+        textAlign: 'center',
+        marginTop: 10,
         fontWeight: 'bold',
     },
 
-    buttonContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        margin: 16,
+    buttonRow: {
+        flexDirection: 'row', // Horizontal layout
+        justifyContent: 'space-between', // Space evenly between buttons
+      
+    },
+    
+
+    deleteButtonIcon: {
+        width: 24, // Adjust the width and height for your icon size
+        height: 24,
+        tintColor: 'red', // Change the color as needed
+        borderRadius: 8,
     },
 
+    editButtonIcon: {
+        width: 24, // Adjust the width and height for your icon size
+        height: 24,
+        tintColor: 'black', // Change the color as needed
+        borderRadius: 8,
+        marginRight: 10,
+    },
+    arrowIcon: {
+        width: 30, // Set the desired width for the arrow icon
+        height: 20, // Set the desired height for the arrow icon
+    },
+    
 });
 
 export default styles;
