@@ -4,26 +4,27 @@ import { PROFILECOLORS } from '../../../Assets/Constants/index';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#FFF',
-    },
-    header: (color) => ({
-        backgroundColor: PROFILECOLORS[color] || PROFILECOLORS.Default,
-        height: 250,
+      },
+      backgroundImage: {
+        flex: 1,
+        resizeMode: 'cover', // or 'stretch' based on your design preference
+      },
+      overlayContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        paddingTop: 5,
-        paddingHorizontal: 16,
-    }),
-    avatar: {
+        justifyContent: 'space-between',
+        padding: 16,
+      },
+      avatar: {
         width: 130,
         height: 130,
         borderRadius: 4,
-    },
-    informationContainer: {
+      },
+      informationContainer: {
         width: 200,
         height: 150,
         marginLeft: 20,
-    },
+      },
     name: {
         fontSize: 22,
         fontWeight: 'bold',

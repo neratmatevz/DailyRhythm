@@ -6,19 +6,19 @@ import { PROFILECOLORS } from '../../../Assets/Constants/index';
 
 const ProgressBar = ({ levelName, nextLevelName, ratio, nextLevelPoints, points }) => {
     const progressColor = PROFILECOLORS[levelName] || '#FFFFFF';
-    const nextLevelProgressColor = PROFILECOLORS[nextLevelName] || '#FFFFFF';
 
     return (
-        <View>
+        <View style={{marginTop: 10, marginLeft:10,marginRight:10}}>
             <Progress.Bar
                 progress={ratio}
                 width={null}
                 color={progressColor}
-                borderRadius={0}
+                borderRadius={10}
                 useNativeDriver={true}
                 easing={Easing.inOut(Easing.ease)}
-                unfilledColor={nextLevelProgressColor}
-                height={20}
+                unfilledColor="#FFFFFF"
+                height={25}
+                borderColor="black"
             />
             <View style={styles.overlayContainer}>
                 <Text style={styles.overlayTextRight}>{nextLevelPoints}</Text>
@@ -40,12 +40,14 @@ const styles = StyleSheet.create({
         color: 'black',
         fontWeight: 'bold',
         marginRight: 10,
+        marginBottom: 4
         // Add other style properties as needed
     },
     overlayTextLeft: {
         color: 'black',
         fontWeight: 'bold',
-        marginLeft: 10, // Adjust the margin as needed
+        marginLeft: 10,
+        marginBottom: 4 // Adjust the margin as needed
         // Add other style properties as needed
     }
 });

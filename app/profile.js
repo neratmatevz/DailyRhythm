@@ -15,7 +15,6 @@ import { ScrollView } from 'react-native-gesture-handler';
 const Profile = () => {
     const [profile, setProfile] = useState(InitialProfile);
     const [levelName, setLevelName] = useState("");
-    const [nextLevelName, setNextLevelName] = useState("");
     const [points, setPoints] = useState(0);
     const [ratio, setRatio] = useState(0);
     const [nextLevelPoints, setNextLevelPoints] = useState(0);
@@ -51,11 +50,9 @@ const Profile = () => {
 
                     if (levels !== undefined) {
                         const levelName = getNameOfLevel(profile.level, levels);
-                        const nextLevelName = getNameOfNextLevel(profile.level, levels);
                         const nextLevelPoints = getPointsForNextLevel(profile.level, levels);
                         setNextLevelPoints(nextLevelPoints);
                         setLevelName(levelName);
-                        setNextLevelName(nextLevelName);
                         let ratioC = parseFloat(points) / parseFloat(nextLevelPoints);
                         setRatio(ratioC);
                     } else {
@@ -79,9 +76,6 @@ const Profile = () => {
         return levels.find((level) => profileLevel === level.level).do;
     }
 
-    const getNameOfNextLevel = (profileLevel, levels) => {
-        return levels.find((level) => profileLevel + 1 === level.level).naziv;
-    }
 
     return (
         <SafeAreaView>
@@ -98,7 +92,7 @@ const Profile = () => {
                 }}
             />
             <ScrollView>
-                <TopRow profile={profile} levelName={levelName} nextLevelName={nextLevelName} ratio={ratio} nextLevelPoints={nextLevelPoints}/>
+                <TopRow profile={profile} levelName={levelName} ratio={ratio} nextLevelPoints={nextLevelPoints}/>
                 <Achievements />
             </ScrollView>
 
