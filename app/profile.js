@@ -9,12 +9,18 @@ import Achievements from '../Components/Profile/Achievements/Achievements';
 
 import styles from '../Components/Profile/TopRow/TopRow.style';
 import { ScrollView } from 'react-native-gesture-handler';
+import EditProfilePopUp from '../Components/Profile/EditProfilePopUp/EditProfilePopUp';
 
 
 
 const Profile = () => {
     const [profile, setProfile] = useState(InitialProfile);
     const [levelName, setLevelName] = useState("");
+    const [points, setPoints] = useState(0);
+    const [ratio, setRatio] = useState(0);
+    const [nextLevelPoints, setNextLevelPoints] = useState(0);
+    const [popUpVisible, setPopUpVisible] = useState(false);
+    const [loading, setLoading] = useState(true); 
 
     useEffect(() => {
         db.transaction((tx) => {
@@ -25,7 +31,9 @@ const Profile = () => {
                     const profile = result.rows._array[0];
 
                     if (profile !== undefined && profile !== null) {
+                        setPoints(profile.stTock);
                         setProfile(profile);
+                        
                     } else {
                         console.error('Profile undefined or null');
                     }
@@ -45,7 +53,12 @@ const Profile = () => {
 
                     if (levels !== undefined) {
                         const levelName = getNameOfLevel(profile.level, levels);
+                        const nextLevelPoints = getPointsForNextLevel(profile.level, levels);
+                        setNextLevelPoints(nextLevelPoints);
                         setLevelName(levelName);
+                        let ratioC = parseFloat(points) / parseFloat(nextLevelPoints);
+                        setRatio(ratioC);
+                        setLoading(false);
                     } else {
                         console.error("Levels undefined");
                     }
@@ -57,31 +70,50 @@ const Profile = () => {
         });
 
 
-    }, []);
+    }, [points]);
 
     const getNameOfLevel = (profileLevel, levels) => {
         return levels.find((level) => profileLevel === level.level).naziv;
+    }
+
+    const getPointsForNextLevel = (profileLevel, levels) => {
+        return levels.find((level) => profileLevel === level.level).do;
+    }
+
+    const closePopup = () => {
+        setPopUpVisible(false)
     }
 
     return (
         <SafeAreaView>
             <Stack.Screen
                 options={{
-                    headerTitle: levelName + ' (Level ' + profile.level + ')',
-                    headerTitleAlign: 'center',
                     headerLeft: () => {
                         <HomeHeaderBtn
                             icon={require("../Assets/Icons/left.png")}
                             handlePress={() => router.back()}
                         />
-                    }
+                    },
+                    headerRight: () => 
+                        <HomeHeaderBtn
+                            icon={require("../Assets/Icons/edit.png")}
+                            dimension={'70%'}
+                            handlePress={() => setPopUpVisible(true)}
+                        />
+                    ,
+                    headerTitle: levelName + ' (Level ' + profile.level + ')',
+                    headerTitleAlign: 'center',
+                    
                 }}
             />
             <ScrollView>
-                <TopRow profile={profile} levelName={levelName} />
+                <TopRow profile={profile} levelName={levelName} ratio={ratio} nextLevelPoints={nextLevelPoints}/>
                 <Achievements />
             </ScrollView>
 
+            {!loading && ( 
+                <EditProfilePopUp isPopUpVisible={popUpVisible} closePopup={closePopup} profile={profile}/>
+            )}
         </SafeAreaView>
     )
 }
@@ -91,7 +123,8 @@ const InitialProfile = {
     upIme: "InitialUpIme",
     email: "InitialEmail",
     stTock: 0,
-    level: 1
+    level: 1,
+    slika: "../../../Assets/Icons/person.png"
 }
 
 

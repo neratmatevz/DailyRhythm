@@ -67,6 +67,30 @@ const initDatabase = () => {
                 // Success callback
                 console.log('Table profil created successfully');
 
+                /*tx.executeSql(
+                    `ALTER TABLE profil ADD COLUMN slika VARCHAR(150);`,
+                    [],
+                    (_, alterResult) => {
+                        // Success callback for adding the new column
+                        console.log('Column newColumn added successfully:', alterResult);
+                    },
+                    (_, alterError) => {
+                        // Error callback for adding the new column
+                        console.error('Error adding column newColumn:', alterError);
+                    }
+                )*/
+                /*tx.executeSql(
+                    'UPDATE profil SET slika = ? WHERE id = ?;',
+                    ['../../../Assets/Icons/person.png', 1],
+                    (_, updateResult) => {
+                        // Success callback for the UPDATE statement
+                        console.log('Row updated successfully:', updateResult);
+                    },
+                    (_, updateError) => {
+                        // Error callback for the UPDATE statement
+                        console.error('Error updating row:', updateError);
+                    }
+                );*/
                 // Inserting a sample row into the "profil" table
                 /*tx.executeSql(
                     `INSERT INTO profil (upIme, email, stTock, level) VALUES (?, ?, ?, ?);`,
