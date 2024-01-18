@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFF',
     },
     header: (color) => ({
-        backgroundColor: PROFILECOLORS[color] || PROFILECOLORS.Emerald,
+        backgroundColor: PROFILECOLORS[color] || PROFILECOLORS.Default,
         height: 250,
         flexDirection: 'row',
         alignItems: 'center',

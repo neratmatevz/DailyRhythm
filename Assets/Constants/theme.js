@@ -4,5 +4,6 @@ export const PROFILECOLORS = {
     Gold: "#bf9b30",
     Platinum: "#E5E4E2",
     Diamond: "#b9f2ff",
-    Emerald: "#50C878"
+    Emerald: "#50C878",
+    Default: "#FFFFF"
 }
