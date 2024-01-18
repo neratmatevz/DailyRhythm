@@ -6,9 +6,10 @@ import styles from './TopRow.style';
 import ProgressBar from '../ProgressBar/ProgressBar';
 
 
-const TopRow = ({ profile, levelName, nextLevelName, ratio, nextLevelPoints }) => {
+const TopRow = ({ profile, levelName,  ratio, nextLevelPoints }) => {
     const [showEmail, setShowEmail] = useState(false);
     const backgroundImage = backgroundImages[levelName] || require('../../../Assets/LevelBkgColor/Bronze.gif');
+    const userPhoto = require('../../../Assets/Icons/person.png');
 
     const toggleEmailVisibility = () => {
         setShowEmail(!showEmail);
@@ -27,7 +28,7 @@ const TopRow = ({ profile, levelName, nextLevelName, ratio, nextLevelPoints }) =
 
                 {/* Rest of the content */}
                 <View style={styles.overlayContainer}>
-                    <Image style={styles.avatar} source={require("../../../Assets/Icons/person.png")} />
+                    <Image style={styles.avatar} source={userPhoto} />
                     <View style={styles.informationContainer}>
                         <Text style={styles.name}>{profile.upIme}</Text>
                         <TouchableOpacity onPress={toggleEmailVisibility}>

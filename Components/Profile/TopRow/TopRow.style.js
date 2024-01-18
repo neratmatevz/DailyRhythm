@@ -24,16 +24,20 @@ const styles = StyleSheet.create({
         width: 200,
         height: 150,
         marginLeft: 20,
+        backgroundColor: "rgba(255, 255, 255, 0.6)",
+        borderRadius: 5,
       },
     name: {
         fontSize: 22,
         fontWeight: 'bold',
-        color: '#ffffff'
+        color: '#000',
+        marginLeft:5
     },
     label: {
         fontSize: 16,
-        color: '#ffffff',
+        color: '#000',
         marginTop: 15,
+        marginLeft:15
     },
     section: {
         paddingHorizontal: 16,

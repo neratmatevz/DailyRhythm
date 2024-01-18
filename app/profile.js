@@ -9,6 +9,7 @@ import Achievements from '../Components/Profile/Achievements/Achievements';
 
 import styles from '../Components/Profile/TopRow/TopRow.style';
 import { ScrollView } from 'react-native-gesture-handler';
+import EditProfilePopUp from '../Components/Profile/EditProfilePopUp/EditProfilePopUp';
 
 
 
@@ -18,6 +19,8 @@ const Profile = () => {
     const [points, setPoints] = useState(0);
     const [ratio, setRatio] = useState(0);
     const [nextLevelPoints, setNextLevelPoints] = useState(0);
+    const [popUpVisible, setPopUpVisible] = useState(false);
+    const [loading, setLoading] = useState(true); 
 
     useEffect(() => {
         db.transaction((tx) => {
@@ -55,6 +58,7 @@ const Profile = () => {
                         setLevelName(levelName);
                         let ratioC = parseFloat(points) / parseFloat(nextLevelPoints);
                         setRatio(ratioC);
+                        setLoading(false);
                     } else {
                         console.error("Levels undefined");
                     }
@@ -76,19 +80,30 @@ const Profile = () => {
         return levels.find((level) => profileLevel === level.level).do;
     }
 
+    const closePopup = () => {
+        setPopUpVisible(false)
+    }
 
     return (
         <SafeAreaView>
             <Stack.Screen
                 options={{
-                    headerTitle: levelName + ' (Level ' + profile.level + ')',
-                    headerTitleAlign: 'center',
                     headerLeft: () => {
                         <HomeHeaderBtn
                             icon={require("../Assets/Icons/left.png")}
                             handlePress={() => router.back()}
                         />
-                    }
+                    },
+                    headerRight: () => 
+                        <HomeHeaderBtn
+                            icon={require("../Assets/Icons/edit.png")}
+                            dimension={'70%'}
+                            handlePress={() => setPopUpVisible(true)}
+                        />
+                    ,
+                    headerTitle: levelName + ' (Level ' + profile.level + ')',
+                    headerTitleAlign: 'center',
+                    
                 }}
             />
             <ScrollView>
@@ -96,6 +111,9 @@ const Profile = () => {
                 <Achievements />
             </ScrollView>
 
+            {!loading && ( 
+                <EditProfilePopUp isPopUpVisible={popUpVisible} closePopup={closePopup} profile={profile}/>
+            )}
         </SafeAreaView>
     )
 }
@@ -105,7 +123,8 @@ const InitialProfile = {
     upIme: "InitialUpIme",
     email: "InitialEmail",
     stTock: 0,
-    level: 1
+    level: 1,
+    slika: "../../../Assets/Icons/person.png"
 }
 
 
