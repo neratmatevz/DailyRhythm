@@ -8,7 +8,7 @@ import ProgressBar from '../ProgressBar/ProgressBar';
 
 const TopRow = ({ profile, levelName,  ratio, nextLevelPoints }) => {
     const [showEmail, setShowEmail] = useState(false);
-    const backgroundImage = backgroundImages[levelName] || require('../../../Assets/LevelBkgColor/Bronze.jpg');
+    const backgroundImage = backgroundImages[levelName] || require('../../../Assets/LevelBkgColor/Zero.jpg');
     const userPhoto = require('../../../Assets/Icons/person1.png');
 
     const toggleEmailVisibility = () => {
@@ -44,6 +44,7 @@ const TopRow = ({ profile, levelName,  ratio, nextLevelPoints }) => {
 };
 
 const backgroundImages = {
+    Zero: require('../../../Assets/LevelBkgColor/Zero.jpg'),
     Bronze: require('../../../Assets/LevelBkgColor/Bronze.jpg'),
     Silver: require('../../../Assets/LevelBkgColor/Silver.jpg'),
     Gold: require('../../../Assets/LevelBkgColor/Gold.jpg'),

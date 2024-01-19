@@ -1,6 +1,6 @@
 import { Stack } from 'expo-router';
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, Text, View } from 'react-native';
+import { ActivityIndicator, SafeAreaView, Text, View } from 'react-native';
 import HomeHeaderBtn from '../Components/Common/HeaderBtn/HeaderBtn';
 
 import db from '../Assets/Database/db';
@@ -35,7 +35,7 @@ const Profile = () => {
                             return { ...prevProfile, ...profile };
                         });
                         setPoints(profile.stTock);
-                        
+
                     } else {
                         console.error('Profile undefined or null');
                     }
@@ -94,7 +94,9 @@ const Profile = () => {
 
     return (
         <SafeAreaView>
-            {!loading && (
+            {loading ? (
+                <ActivityIndicator size="large" />
+            ) : (
                 <>
                     <Stack.Screen
                         options={{
@@ -134,7 +136,7 @@ const InitialProfile = {
     upIme: "InitialUpIme",
     email: "InitialEmail",
     stTock: 0,
-    level: 1,
+    level: 0,
     slika: "../../../Assets/Icons/person1.png"
 }
 

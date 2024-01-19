@@ -194,6 +194,20 @@ const initDatabase = () => {
                         console.error('Error inserting row:', error);
                     }
                 );*/
+                /*tx.executeSql(
+                    `INSERT INTO level (od, do, level, naziv) VALUES (?, ?, ?, ?);`,
+                    [
+                        0, 1, 0, "Zero"
+                    ],
+                    (_, insertResult) => {
+                        // Success callback for the INSERT statement
+                        console.log('Row inserted successfully:', insertResult);
+                    },
+                    (_, error) => {
+                        // Error callback for the INSERT statement
+                        console.error('Error inserting row:', error);
+                    }
+                );*/
             },
             (_, error) => {
                 // Error callback for table creation
