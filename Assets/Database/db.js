@@ -80,8 +80,8 @@ const initDatabase = () => {
                     }
                 )*/
                 /*tx.executeSql(
-                    'UPDATE profil SET slika = ? WHERE id = ?;',
-                    ['../../../Assets/Icons/person.png', 1],
+                    'UPDATE profil SET stTock = ? WHERE id = ?;',
+                    [5240, 1],
                     (_, updateResult) => {
                         // Success callback for the UPDATE statement
                         console.log('Row updated successfully:', updateResult);

@@ -3,7 +3,9 @@ import { Modal, Text, TouchableOpacity, View, TextInput, Image } from "react-nat
 import styles from "./EditProfilePopUp.style";
 import { useState } from "react";
 
-const EditProfilePopUp = ({ isPopUpVisible, closePopup, profile }) => {
+import db from "../../../Assets/Database/db";
+
+const EditProfilePopUp = ({ isPopUpVisible, closePopup, profile, onUpdateProfile }) => {
     const [editedProfile, setEditedProfile] = useState({ ...profile });
 
     const handleInputChange = (key, value) => {
@@ -11,11 +13,20 @@ const EditProfilePopUp = ({ isPopUpVisible, closePopup, profile }) => {
     };
 
     const handleSave = () => {
-        // Perform save action with editedProfile
-        // For example, you can call an API to update the profile
-        // ...
 
-        // Close the popup
+        db.transaction((tx) => {
+            tx.executeSql(
+                "UPDATE profil SET upIme = ?, email = ? WHERE id = 1",
+                [editedProfile.upIme, editedProfile.email],
+                (_, updateResult) => {
+                    console.log('Row updated successfully:', updateResult);
+                    onUpdateProfile(editedProfile);
+                },
+                (_, updateError) => {
+                    console.error('Error updating row:', updateError);
+                }
+            );
+        })
         closePopup();
     };
 
@@ -31,13 +42,14 @@ const EditProfilePopUp = ({ isPopUpVisible, closePopup, profile }) => {
                     <Text style={styles.modalTitle}>Edit Profile</Text>
                     <Image
                         style={styles.profileImage}
-                        source={require('../../../Assets/Icons/person.png')}
+                        source={require('../../../Assets/Icons/person1.png')}
                     />
                     <TextInput
                         style={styles.input}
                         value={editedProfile.upIme}
                         onChangeText={(text) => handleInputChange('upIme', text)}
                         placeholder="Username"
+                        maxLength={13}
                     />
                     <TextInput
                         style={styles.input}

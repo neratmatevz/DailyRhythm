@@ -8,7 +8,7 @@ const ProgressBar = ({ levelName, nextLevelName, ratio, nextLevelPoints, points 
     const progressColor = PROFILECOLORS[levelName] || '#FFFFFF';
 
     return (
-        <View style={{marginTop: 10, marginLeft:10,marginRight:10}}>
+        <View style={{marginTop: 10, marginLeft:10,marginRight:10,marginBottom:10}}>
             <Progress.Bar
                 progress={ratio}
                 width={null}
