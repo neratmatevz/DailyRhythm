@@ -8,8 +8,8 @@ import ProgressBar from '../ProgressBar/ProgressBar';
 
 const TopRow = ({ profile, levelName,  ratio, nextLevelPoints }) => {
     const [showEmail, setShowEmail] = useState(false);
-    const backgroundImage = backgroundImages[levelName] || require('../../../Assets/LevelBkgColor/Bronze.gif');
-    const userPhoto = require('../../../Assets/Icons/person.png');
+    const backgroundImage = backgroundImages[levelName] || require('../../../Assets/LevelBkgColor/Zero.jpg');
+    const userPhoto = require('../../../Assets/Icons/person1.png');
 
     const toggleEmailVisibility = () => {
         setShowEmail(!showEmail);
@@ -18,14 +18,6 @@ const TopRow = ({ profile, levelName,  ratio, nextLevelPoints }) => {
     return (
         <View style={styles.container}>
             <ImageBackground source={backgroundImage} style={styles.backgroundImage}>
-                {/* Progress Bar at the top */}
-                <ProgressBar
-                    levelName={levelName}
-                    ratio={ratio}
-                    nextLevelPoints={nextLevelPoints}
-                    points={profile.stTock}
-                />
-
                 {/* Rest of the content */}
                 <View style={styles.overlayContainer}>
                     <Image style={styles.avatar} source={userPhoto} />
@@ -40,18 +32,25 @@ const TopRow = ({ profile, levelName,  ratio, nextLevelPoints }) => {
                         <Text style={styles.label}>Points: {profile.stTock}</Text>
                     </View>
                 </View>
+                <ProgressBar
+                    levelName={levelName}
+                    ratio={ratio}
+                    nextLevelPoints={nextLevelPoints}
+                    points={profile.stTock}
+                />
             </ImageBackground>
         </View>
     )
 };
 
 const backgroundImages = {
-    Bronze: require('../../../Assets/LevelBkgColor/Bronze.gif'),
-    Silver: require('../../../Assets/LevelBkgColor/Silver.gif'),
-    Gold: require('../../../Assets/LevelBkgColor/Gold.gif'),
-    Platinum: require('../../../Assets/LevelBkgColor/Platinum.gif'),
-    Diamond: require('../../../Assets/LevelBkgColor/Diamond.gif'),
-    Emerald: require('../../../Assets/LevelBkgColor/Emerald.gif'),
+    Zero: require('../../../Assets/LevelBkgColor/Zero.jpg'),
+    Bronze: require('../../../Assets/LevelBkgColor/Bronze.jpg'),
+    Silver: require('../../../Assets/LevelBkgColor/Silver.jpg'),
+    Gold: require('../../../Assets/LevelBkgColor/Gold.jpg'),
+    Platinum: require('../../../Assets/LevelBkgColor/Platinum.jpg'),
+    Diamond: require('../../../Assets/LevelBkgColor/Diamond.jpg'),
+    Emerald: require('../../../Assets/LevelBkgColor/Emerald.jpg'),
 };
 
 export default TopRow;

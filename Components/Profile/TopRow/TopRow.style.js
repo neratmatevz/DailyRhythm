@@ -18,14 +18,16 @@ const styles = StyleSheet.create({
       avatar: {
         width: 130,
         height: 130,
-        borderRadius: 4,
-      },
+        borderRadius: 15,
+        borderWidth: 2,  // Set the desired border width
+        borderColor: 'rgba(0, 0, 0, 0.5)',  // Set the desired border color
+    },
       informationContainer: {
         width: 200,
         height: 150,
         marginLeft: 20,
-        backgroundColor: "rgba(255, 255, 255, 0.6)",
-        borderRadius: 5,
+        backgroundColor: "rgba(255, 255, 255, 0.8)",
+        borderRadius: 15,
       },
     name: {
         fontSize: 22,
