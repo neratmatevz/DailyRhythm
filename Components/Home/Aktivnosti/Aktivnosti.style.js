@@ -7,8 +7,10 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#ccc',
         borderRadius: 8,
-        padding: 16,
+        paddingBottom: 16,
+        paddingHorizontal: 5,
         margin: 8,
+        height: 420,
     },
 
     prikazDatuma: {
@@ -86,6 +88,24 @@ const styles = StyleSheet.create({
         width: 30, // Set the desired width for the arrow icon
         height: 20, // Set the desired height for the arrow icon
     },
+
+    addButton: {
+        width: 60, // Adjust size as needed
+        height: 60, // Adjust size as needed
+        borderRadius: 30, // Half of width and height to make it circular
+        backgroundColor: 'black', // Your desired background color
+        justifyContent: 'center', // Center the '+' vertically
+        alignItems: 'center', // Center the '+' horizontally
+        alignSelf: 'center', // Center the button in the container
+        marginTop: 10, // Adjust as needed
+    },
+    addButtonText: {
+        color: 'white', // Text color
+        fontSize: 40, // Increase font size for a bigger '+'
+        // Include lineHeight equal to the button's height for better vertical alignment
+        lineHeight: 50,
+    },
+
     
 });
 

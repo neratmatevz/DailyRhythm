@@ -3,7 +3,7 @@ import { View, Text, Modal, TouchableOpacity } from 'react-native';
 import styles from './PopupAktivnost.style';
 
 
-function Popup({ visible, onClose, activity }) {
+function PopupAktivnost({ visible, onClose, activity }) {
     if (!visible || !activity) {
         return null;
     }
@@ -56,4 +56,4 @@ function Popup({ visible, onClose, activity }) {
     );
 }
 
-export default Popup;
+export default PopupAktivnost;

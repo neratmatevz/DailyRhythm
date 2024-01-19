@@ -1,11 +1,12 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
 import * as SQLite from 'expo-sqlite';
 import db from '../../../Assets/Database/db';
 import styles from './Aktivnosti.style';
 import moment from 'moment';
-import Popup from './PopupAktivnost';
+import PopupAktivnost from './PopupAktivnost';
+import AddAktivnost from './AddAktivnost';
 
 
 function Aktivnosti({ selectedDate, selectedweekday }) {
@@ -14,7 +15,7 @@ function Aktivnosti({ selectedDate, selectedweekday }) {
     const [activities, setActivities] = useState([]);
     const [popupVisible, setPopupVisible] = useState(false);
     const [selectedActivity, setSelectedActivity] = useState(null);
-
+    const [addPopupVisible, setAddPopupVisible] = useState(false);
 
     useEffect(() => {
 
@@ -51,18 +52,19 @@ function Aktivnosti({ selectedDate, selectedweekday }) {
         console.log(activity.ime);
     };
 
+
+    const handleAddActivityClick = () => {
+        setAddPopupVisible(true); 
+    };
+
     const handleClosePopup = () => {
         setPopupVisible(false);
 
     };
 
 
-
-
     return (
         <View>
-
-
             <View>
                 {/* Prikaz Aktivnosti  */}
                 <View>
@@ -71,7 +73,7 @@ function Aktivnosti({ selectedDate, selectedweekday }) {
                         <Text>{selectedDate}</Text>
                     </View>
                     {/* Prikaz izbranega datuma */}
-                    <View style={styles.container}>
+                    <ScrollView style={styles.container}>
                         {activities.map((activity) => (
                             <View key={activity.id}>
                                 <View style={styles.activityTimeContainer}>
@@ -99,11 +101,19 @@ function Aktivnosti({ selectedDate, selectedweekday }) {
                                 </View>
                             </View>
                         ))}
+                    </ScrollView>
+                    {/* Gumb za dodajanje aktivnosti kontainer */}
+                    <View style={styles.buttonContainer}>
+                        {/* Gumb za dodajanje aktivnosti */}
+                        <TouchableOpacity style={styles.addButton} onPress={() => handleAddActivityClick()}>
+                            <Text style={styles.addButtonText}>+</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
 
                 {/* Popup za izbran activity */}
-                <Popup visible={popupVisible} onClose={handleClosePopup} activity={selectedActivity} />
+                <PopupAktivnost visible={popupVisible} onClose={handleClosePopup} activity={selectedActivity} />
+                <AddAktivnost visible={addPopupVisible} onClose={() => setAddPopupVisible(false)} />
             </View>
 
 
