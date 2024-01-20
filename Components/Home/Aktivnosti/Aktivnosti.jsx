@@ -17,6 +17,20 @@ function Aktivnosti({ selectedDate, selectedweekday }) {
     const [selectedActivity, setSelectedActivity] = useState(null);
     const [addPopupVisible, setAddPopupVisible] = useState(false);
 
+    const onAddActivity = (newActivity) => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                `INSERT INTO aktivnost (datum, uraZacetka, uraZakljucka, ime, opis, stTock, datumUraOpomnika, opravljena) VALUES (?, ?, ?, ?, ?, ?, ?, ?);`,
+                [newActivity.datum, newActivity.uraZacetka, newActivity.uraZakljucka, newActivity.ime, newActivity.opis, newActivity.stTock, newActivity.datumUraOpomnika, newActivity.opravljena],
+                (_, result) => {
+                    // Add the new activity to the existing activities array
+                    setActivities(currentActivities => [...currentActivities, { ...newActivity, id: result.insertId }]);
+                },
+                (txObj, error) => console.log('Error', error)
+            );
+        });
+    };
+    
     useEffect(() => {
 
         const date = moment(selectedDate, 'MMMM DD, YYYY').format('YYYY-MM-DD');
@@ -113,7 +127,7 @@ function Aktivnosti({ selectedDate, selectedweekday }) {
 
                 {/* Popup za izbran activity */}
                 <PopupAktivnost visible={popupVisible} onClose={handleClosePopup} activity={selectedActivity} />
-                <AddAktivnost visible={addPopupVisible} onClose={() => setAddPopupVisible(false)} />
+                <AddAktivnost visible={addPopupVisible} onClose={() => setAddPopupVisible(false)} onAdd={onAddActivity} />
             </View>
 
 

@@ -3,46 +3,39 @@ import { View, Text, Modal, TouchableOpacity, TextInput } from 'react-native';
 import styles from './AddAktivnost.style'; // Adjust the path as needed
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-function AddAktivnost({ visible, onClose, onAdd  }) {
-    const [activityName, setActivityName] = useState('');
-    const [datum, setDatum] = useState('');
-    const [uraZacetka, setUraZacetka] = useState('');
-    const [uraZakljucka, setUraZakljucka] = useState('');
+function AddAktivnost({ visible, onClose, onAdd }) {
+    const [datum, setDatum] = useState(new Date());
+    const [uraZacetka, setUraZacetka] = useState(new Date());
+    const [uraZakljucka, setUraZakljucka] = useState(new Date());
     const [ime, setIme] = useState('');
     const [opis, setOpis] = useState('');
     const [stTock, setStTock] = useState('');
-    const [datumUraOpomnika, setDatumUraOpomnika] = useState('');
-
-    const [showDatePicker, setShowDatePicker] = useState(false);
-    const [showTimePicker, setShowTimePicker] = useState(false);
-
-    const handleDateChange = (event, selectedDate) => {
-        const currentDate = selectedDate || datum;
-        setShowDatePicker(false);
-        setDatum(currentDate);
-    };
+    const [datumUraOpomnika, setDatumUraOpomnika] = useState(new Date());
+    const [showDatePicker, setShowDatePicker] = useState({
+        datum: false,
+        uraZacetka: false,
+        uraZakljucka: false,
+        datumUraOpomnika: false
+    });
 
     if (!visible) {
         return null;
     }
 
     const handleSave = () => {
-        // Logic to save the new activity
         const newActivity = {
-            datum,
-            uraZacetka,
-            uraZakljucka,
+            datum: datum.toISOString(),
+            uraZacetka: uraZacetka.toISOString(),
+            uraZakljucka: uraZakljucka.toISOString(),
             ime,
             opis,
             stTock: parseInt(stTock, 10),
-            datumUraOpomnika,
+            datumUraOpomnika: datumUraOpomnika.toISOString(),
             opravljena: false
         };
 
-        // Call the onAdd prop with the new activity
+        console.log(newActivity);
         onAdd(newActivity);
-
-        // Close the popup after saving
         onClose();
     };
 
@@ -50,101 +43,106 @@ function AddAktivnost({ visible, onClose, onAdd  }) {
         <Modal transparent visible={visible} onRequestClose={onClose}>
             <View style={styles.popupContainer}>
                 <View style={styles.popupContent}>
-                    <View style={styles.closeButtonContainer}>
-                        <TouchableOpacity onPress={onClose}>
-                            <Text style={styles.closeButton}>X</Text>
-                        </TouchableOpacity>
-                    </View>
-    
-                    {/* Input for Activity Name */}
-                    <View style={styles.inputContainer}>
-                        <Text style={styles.label}>Activity Name:</Text>
-                        <TextInput
-                            style={styles.input}
-                            value={activityName}
-                            onChangeText={setActivityName}
-                            placeholder="Enter activity name"
-                        />
-                    </View>
-    
-                    {/* Other input fields */}
-                    {/* Repeat this structure for each attribute */}
-    
-                {/* Input for Date */}
-                <View style={styles.inputContainer}>
-                    <Text style={styles.label}>Date:</Text>
-                    <TouchableOpacity onPress={() => setShowDatePicker(true)}>
-                        <Text style={styles.input}>{datum ? datum.toDateString() : 'Select date'}</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Ime"
+                        value={ime}
+                        onChangeText={setIme}
+                    />
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Opis"
+                        value={opis}
+                        onChangeText={setOpis}
+                    />
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Št. točk"
+                        value={stTock}
+                        keyboardType="numeric"
+                        onChangeText={setStTock}
+                    />
+                    <TouchableOpacity onPress={() => setShowDatePicker({ ...showDatePicker, datum: true })}>
+                        <Text>Select Datum</Text>
                     </TouchableOpacity>
-                    {showDatePicker && (
+                    {showDatePicker.datum && (
                         <DateTimePicker
-                            value={datum || new Date()}
+                            value={datum}
                             mode="date"
                             display="default"
-                            onChange={handleDateChange}
+                            onChange={(event, selectedDate) => {
+                                setShowDatePicker({ ...showDatePicker, datum: false });
+                                setDatum(selectedDate || datum);
+                            }}
                         />
                     )}
-                </View>
-    
-                    {/* Input for Start Time */}
-                    <View style={styles.inputContainer}>
-                        <Text style={styles.label}>Start Time:</Text>
-                        <TextInput
-                            style={styles.input}
+                    <TouchableOpacity onPress={() => setShowDatePicker({ ...showDatePicker, uraZacetka: true })}>
+                        <Text>Select Ura Zacetka</Text>
+                    </TouchableOpacity>
+                    {showDatePicker.uraZacetka && (
+                        <DateTimePicker
                             value={uraZacetka}
-                            onChangeText={setUraZacetka}
-                            placeholder="HH:MM"
+                            mode="time"
+                            display="default"
+                            onChange={(event, selectedTime) => {
+                                setShowDatePicker({ ...showDatePicker, uraZacetka: false });
+                                setUraZacetka(selectedTime || uraZacetka);
+                            }}
                         />
-                    </View>
-    
-                    {/* Input for End Time */}
-                    <View style={styles.inputContainer}>
-                        <Text style={styles.label}>End Time:</Text>
-                        <TextInput
-                            style={styles.input}
+                    )}
+                    <TouchableOpacity onPress={() => setShowDatePicker({ ...showDatePicker, uraZakljucka: true })}>
+                        <Text>Select Ura Zakljucka</Text>
+                    </TouchableOpacity>
+                    {showDatePicker.uraZakljucka && (
+                        <DateTimePicker
                             value={uraZakljucka}
-                            onChangeText={setUraZakljucka}
-                            placeholder="HH:MM"
+                            mode="time"
+                            display="default"
+                            onChange={(event, selectedTime) => {
+                                setShowDatePicker({ ...showDatePicker, uraZakljucka: false });
+                                setUraZakljucka(selectedTime || uraZakljucka);
+                            }}
                         />
-                    </View>
-    
-                    {/* Input for Description */}
-                    <View style={styles.inputContainer}>
-                        <Text style={styles.label}>Description:</Text>
-                        <TextInput
-                            style={styles.input}
-                            value={opis}
-                            onChangeText={setOpis}
-                            placeholder="Description"
-                        />
-                    </View>
-    
-                    {/* Input for Points */}
-                    <View style={styles.inputContainer}>
-                        <Text style={styles.label}>Points:</Text>
-                        <TextInput
-                            style={styles.input}
-                            value={stTock}
-                            onChangeText={setStTock}
-                            placeholder="Number"
-                            keyboardType="numeric"
-                        />
-                    </View>
-    
-                    {/* Input for Reminder Date & Time */}
-                    <View style={styles.inputContainer}>
-                        <Text style={styles.label}>Reminder Date & Time:</Text>
-                        <TextInput
-                            style={styles.input}
+                    )}
+                    <TouchableOpacity onPress={() => setShowDatePicker({ ...showDatePicker, datumUraOpomnikaDate: true })}>
+                        <Text>Select Datum for Opomnika</Text>
+                    </TouchableOpacity>
+                    {showDatePicker.datumUraOpomnikaDate && (
+                        <DateTimePicker
                             value={datumUraOpomnika}
-                            onChangeText={setDatumUraOpomnika}
-                            placeholder="YYYY-MM-DD HH:MM"
+                            mode="date"
+                            display="default"
+                            onChange={(event, selectedDate) => {
+                                if (selectedDate) {
+                                    setDatumUraOpomnika(new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate(), datumUraOpomnika.getHours(), datumUraOpomnika.getMinutes()));
+                                }
+                                setShowDatePicker({ ...showDatePicker, datumUraOpomnikaDate: false });
+                            }}
                         />
-                    </View>
-    
-                    {/* Save Button */}
+                    )}
+                    <TouchableOpacity onPress={() => setShowDatePicker({ ...showDatePicker, datumUraOpomnikaTime: true })}>
+                        <Text>Select Ura for Opomnika</Text>
+                    </TouchableOpacity>
+                    {showDatePicker.datumUraOpomnikaTime && (
+                        <DateTimePicker
+                            value={datumUraOpomnika}
+                            mode="time"
+                            display="default"
+                            onChange={(event, selectedTime) => {
+                                if (selectedTime) {
+                                    setDatumUraOpomnika(new Date(datumUraOpomnika.getFullYear(), datumUraOpomnika.getMonth(), datumUraOpomnika.getDate(), selectedTime.getHours(), selectedTime.getMinutes()));
+                                }
+                                setShowDatePicker({ ...showDatePicker, datumUraOpomnikaTime: false });
+                            }}
+                        />
+                    )}
+
+                    {/* Save and Cancel Buttons */}
                     <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
                         <Text style={styles.saveButtonText}>Save</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.cancelButton} onPress={onClose}>
+                        <Text style={styles.cancelButtonText}>Cancel</Text>
                     </TouchableOpacity>
                 </View>
             </View>

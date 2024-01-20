@@ -54,6 +54,7 @@ const Profile = () => {
                     const levels = result.rows._array;
 
                     if (levels !== undefined) {
+                        console.log(JSON.stringify(levels));
                         const levelName = getNameOfLevel(profile.level, levels);
                         const nextLevelPoints = getPointsForNextLevel(profile.level, levels);
                         setNextLevelPoints(nextLevelPoints);

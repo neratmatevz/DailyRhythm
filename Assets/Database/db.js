@@ -207,7 +207,7 @@ const initDatabase = () => {
                         // Error callback for the INSERT statement
                         console.error('Error inserting row:', error);
                     }
-                );*/
+                ); */
             },
             (_, error) => {
                 // Error callback for table creation
