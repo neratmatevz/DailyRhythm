@@ -114,30 +114,47 @@ function Aktivnosti({ selectedDate, selectedweekday }) {
     };
 
     const handleMarkAsDone = (activity) => {
-
         db.transaction((tx) => {
             tx.executeSql(
                 'UPDATE aktivnost SET opravljena = 1 WHERE id = ?;',
                 [activity.id],
                 () => {
-                    // Tukaj lahko dodate kodo za obvladovanje uspešne posodobitve
-                    console.log('Aktivnost je bila označena kot opravljena.');
+                    // Dodaj točke k profilu
+                    db.transaction((tx) => {
+                        tx.executeSql(
+                            'UPDATE profil SET stTock = stTock + ? WHERE id = 1;', 
+                            [activity.stTock],
+                            () => {
+                                console.log('Aktivnost je bila označena kot opravljena in dodane so bile točke.');
+                            },
+                            (txObj, error) => console.log('Napaka pri dodajanju točk:', error)
+                        );
+                    });
                 },
-                (txObj, error) => console.log('Napaka', error)
+                (txObj, error) => console.log('Napaka pri označevanju aktivnosti kot opravljene:', error)
             );
         });
     };
+    
     const handleMarkAsUndone = (activity) => {
-
         db.transaction((tx) => {
             tx.executeSql(
                 'UPDATE aktivnost SET opravljena = 0 WHERE id = ?;',
                 [activity.id],
                 () => {
-                    // Tukaj lahko dodate kodo za obvladovanje uspešne posodobitve
-                    console.log('Aktivnost je bila označena kot neopravljena.');
+                    // Odstrani točke iz profila
+                    db.transaction((tx) => {
+                        tx.executeSql(
+                            'UPDATE profil SET stTock = stTock - ? WHERE id = 1;', 
+                            [activity.stTock],
+                            () => {
+                                console.log('Aktivnost je bila označena kot neopravljena in odstranjene so bile točke.');
+                            },
+                            (txObj, error) => console.log('Napaka pri odstranjevanju točk:', error)
+                        );
+                    });
                 },
-                (txObj, error) => console.log('Napaka', error)
+                (txObj, error) => console.log('Napaka pri označevanju aktivnosti kot neopravljene:', error)
             );
         });
     };
