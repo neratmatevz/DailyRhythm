@@ -76,6 +76,19 @@ const styles = StyleSheet.create({
         tintColor: 'red', // Change the color as needed
         borderRadius: 8,
     },
+    
+    markDoneIcon: {
+        width:35, // Adjust the width and height for your icon size
+        height:35,
+        borderRadius: 8,
+
+    },
+    markUndoneIcon: {
+        width:35, // Adjust the width and height for your icon size
+        height:35,
+        borderRadius: 8,
+
+    },
 
     editButtonIcon: {
         width: 24, // Adjust the width and height for your icon size

@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, Modal, TouchableOpacity, TextInput } from 'react-native';
 import styles from './AddAktivnost.style'; // Adjust the path as needed
 import DateTimePicker from '@react-native-community/datetimepicker';
+import moment from 'moment';
+
 
 
 function EditAktivnost({ visible, onClose, onEdit, activity }) {
-   
+
+
     const [datum, setDatum] = useState(new Date());
     const [uraZacetka, setUraZacetka] = useState(new Date());
     const [uraZakljucka, setUraZakljucka] = useState(new Date());
@@ -20,14 +23,24 @@ function EditAktivnost({ visible, onClose, onEdit, activity }) {
         datumUraOpomnikaDate: false,
         datumUraOpomnikaTime: false
     });
-    
+
+    useEffect(() => {
+        if (activity) {
+            setDatum(new Date(activity.datum));
+            setUraZacetka(new Date(activity.uraZacetka));
+            setUraZakljucka(new Date(activity.uraZakljucka));
+            setIme(activity.ime);
+            setOpis(activity.opis);
+            setStTock(activity.stTock.toString());
+            setDatumUraOpomnika(new Date(activity.datumUraOpomnika));
+        }
+    }, [activity]);
+
 
     if (!visible) {
         return null;
     }
 
-  
-    
     const handleSave = () => {
         const updatedActivity = {
             id: activity.id,
@@ -40,12 +53,12 @@ function EditAktivnost({ visible, onClose, onEdit, activity }) {
             datumUraOpomnika: datumUraOpomnika.toISOString(),
             opravljena: activity.opravljena // Assuming you're not changing this in EditAktivnost
         };
-    
+
         onEdit(updatedActivity);
         onClose();
     };
-    
-    
+
+
     return (
         <Modal transparent visible={visible} onRequestClose={onClose}>
             <View style={styles.popupContainer}>
@@ -70,7 +83,7 @@ function EditAktivnost({ visible, onClose, onEdit, activity }) {
                         onChangeText={setStTock}
                     />
                     <TouchableOpacity onPress={() => setShowDatePicker({ ...showDatePicker, datum: true })}>
-                        <Text>Select Datum</Text>
+                        <Text>Datum: {moment(datum).format('DD.MM.YYYY')}</Text>
                     </TouchableOpacity>
                     {showDatePicker.datum && (
                         <DateTimePicker
@@ -83,8 +96,9 @@ function EditAktivnost({ visible, onClose, onEdit, activity }) {
                             }}
                         />
                     )}
+
                     <TouchableOpacity onPress={() => setShowDatePicker({ ...showDatePicker, uraZacetka: true })}>
-                        <Text>Select Ura Zacetka</Text>
+                        <Text>Ura zacetka: {moment(uraZacetka).format('HH:mm')}</Text>
                     </TouchableOpacity>
                     {showDatePicker.uraZacetka && (
                         <DateTimePicker
@@ -97,8 +111,9 @@ function EditAktivnost({ visible, onClose, onEdit, activity }) {
                             }}
                         />
                     )}
+
                     <TouchableOpacity onPress={() => setShowDatePicker({ ...showDatePicker, uraZakljucka: true })}>
-                        <Text>Select Ura Zakljucka</Text>
+                        <Text>Ura zakljucka: {moment(uraZakljucka).format('HH:mm')}</Text>
                     </TouchableOpacity>
                     {showDatePicker.uraZakljucka && (
                         <DateTimePicker
@@ -111,8 +126,9 @@ function EditAktivnost({ visible, onClose, onEdit, activity }) {
                             }}
                         />
                     )}
+
                     <TouchableOpacity onPress={() => setShowDatePicker({ ...showDatePicker, datumUraOpomnikaDate: true })}>
-                        <Text>Select Datum for Opomnika</Text>
+                        <Text>Datum opomnika: {moment(datumUraOpomnika).format('DD.MM.YYYY')}</Text>
                     </TouchableOpacity>
                     {showDatePicker.datumUraOpomnikaDate && (
                         <DateTimePicker
@@ -127,8 +143,9 @@ function EditAktivnost({ visible, onClose, onEdit, activity }) {
                             }}
                         />
                     )}
+
                     <TouchableOpacity onPress={() => setShowDatePicker({ ...showDatePicker, datumUraOpomnikaTime: true })}>
-                        <Text>Select Ura for Opomnika</Text>
+                        <Text>Ura opomnika: {moment(datumUraOpomnika).format('HH:mm')}</Text>
                     </TouchableOpacity>
                     {showDatePicker.datumUraOpomnikaTime && (
                         <DateTimePicker
@@ -143,6 +160,7 @@ function EditAktivnost({ visible, onClose, onEdit, activity }) {
                             }}
                         />
                     )}
+
 
                     {/* Save and Cancel Buttons */}
                     <TouchableOpacity style={styles.saveButton} onPress={handleSave}>

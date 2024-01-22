@@ -27,7 +27,7 @@ function Aktivnosti({ selectedDate, selectedweekday }) {
         db.transaction((tx) => {
             tx.executeSql(
                 `INSERT INTO aktivnost (datum, uraZacetka, uraZakljucka, ime, opis, stTock, datumUraOpomnika, opravljena) VALUES (?, ?, ?, ?, ?, ?, ?, ?);`,
-                [newActivity.datum, newActivity.uraZacetka, newActivity.uraZakljucka, newActivity.ime, newActivity.opis, newActivity.stTock, newActivity.datumUraOpomnika, newActivity.opravljena],                (_, result) => {
+                [newActivity.datum, newActivity.uraZacetka, newActivity.uraZakljucka, newActivity.ime, newActivity.opis, newActivity.stTock, newActivity.datumUraOpomnika, newActivity.opravljena], (_, result) => {
                     // Add the new activity to the existing activities array
                     setActivities(currentActivities => [...currentActivities, { ...newActivity, id: result.insertId }]);
                     console.log("vstavljena");
@@ -42,7 +42,7 @@ function Aktivnosti({ selectedDate, selectedweekday }) {
     const onEditActivity = (updatedActivity) => {
         updatedActivity.datum = moment(updatedActivity.datum).format('YYYY-MM-DD');
         updatedActivity.datumUraOpomnika = moment(updatedActivity.datumUraOpomnika).format('YYYY-MM-DD');
-    
+
         db.transaction((tx) => {
             tx.executeSql(
                 `UPDATE aktivnost SET datum = ?, uraZacetka = ?, uraZakljucka = ?, ime = ?, opis = ?, stTock = ?, datumUraOpomnika = ?, opravljena = ? WHERE id = ?;`,
@@ -60,10 +60,10 @@ function Aktivnosti({ selectedDate, selectedweekday }) {
                 (txObj, error) => console.log('Error', error)
             );
         });
-        setEditPopupVisible(false); // Close the edit modal
+        setEditPopupVisible(false);
     };
-    
-    
+
+
     useEffect(() => {
 
         const date = moment(selectedDate, 'MMMM DD, YYYY').format('YYYY-MM-DD');
@@ -107,10 +107,39 @@ function Aktivnosti({ selectedDate, selectedweekday }) {
         setSelectedActivity(activity);
         setEditPopupVisible(true);
     };
-    
+
     const handleClosePopup = () => {
         setPopupVisible(false);
 
+    };
+
+    const handleMarkAsDone = (activity) => {
+
+        db.transaction((tx) => {
+            tx.executeSql(
+                'UPDATE aktivnost SET opravljena = 1 WHERE id = ?;',
+                [activity.id],
+                () => {
+                    // Tukaj lahko dodate kodo za obvladovanje uspešne posodobitve
+                    console.log('Aktivnost je bila označena kot opravljena.');
+                },
+                (txObj, error) => console.log('Napaka', error)
+            );
+        });
+    };
+    const handleMarkAsUndone = (activity) => {
+
+        db.transaction((tx) => {
+            tx.executeSql(
+                'UPDATE aktivnost SET opravljena = 0 WHERE id = ?;',
+                [activity.id],
+                () => {
+                    // Tukaj lahko dodate kodo za obvladovanje uspešne posodobitve
+                    console.log('Aktivnost je bila označena kot neopravljena.');
+                },
+                (txObj, error) => console.log('Napaka', error)
+            );
+        });
     };
 
 
@@ -142,13 +171,20 @@ function Aktivnosti({ selectedDate, selectedweekday }) {
                                     </View>
                                     {/* GUMBI OPRAVLJENO, NEOPRAVLJENO, EDIT, DELETE */}
                                     <View style={styles.buttonRow}>
-                                        <TouchableOpacity onPress={() => handleEditClick(activity, 'edit')}>
+                                        <TouchableOpacity onPress={() => handleMarkAsDone(activity)}>
+                                            <Image source={require('../../../Assets/Icons/checkicon.jpg')} style={styles.markDoneIcon} />
+                                        </TouchableOpacity>
+                                        <TouchableOpacity onPress={() => handleMarkAsUndone(activity)}>
+                                            <Image source={require('../../../Assets/Icons/crossicon.png')} style={styles.markUndoneIcon} />
+                                        </TouchableOpacity>
+                                        <TouchableOpacity onPress={() => handleEditClick(activity, "edit")}>
                                             <Image source={require('../../../Assets/Icons/editicon.png')} style={styles.editButtonIcon} />
                                         </TouchableOpacity>
                                         <TouchableOpacity onPress={() => handleActivityClick(activity, 'delete')}>
                                             <Image source={require('../../../Assets/Icons/deleteicon.png')} style={styles.deleteButtonIcon} />
                                         </TouchableOpacity>
                                     </View>
+
                                 </View>
                             </View>
                         ))}
@@ -165,7 +201,7 @@ function Aktivnosti({ selectedDate, selectedweekday }) {
                 {/* Popup za izbran activity */}
                 <PopupAktivnost visible={popupVisible} onClose={handleClosePopup} activity={selectedActivity} />
                 <AddAktivnost visible={addPopupVisible} onClose={() => setAddPopupVisible(false)} onAdd={onAddActivity} />
-                <EditAktivnost visible={editPopupVisible} activity={selectedActivity}  onClose={() => setEditPopupVisible(false)} onEdit={onEditActivity} />
+                <EditAktivnost visible={editPopupVisible} activity={selectedActivity} onClose={() => setEditPopupVisible(false)} onEdit={onEditActivity} />
             </View>
 
 
