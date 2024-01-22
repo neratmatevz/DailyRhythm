@@ -4,40 +4,44 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        borderWidth: 1,
+        borderWidth: 5,
         borderColor: '#ccc',
-        borderRadius: 8,
+        borderRadius: 10,
         paddingBottom: 16,
-        paddingHorizontal: 5,
-        margin: 8,
+        paddingHorizontal: 10,
+        marginHorizontal: 8,
+        marginTop: 2,
         height: 420,
+        borderStyle: 'dashed',
     },
 
     prikazDatuma: {
       paddingLeft: 15,
-      paddingTop: 10,  
+      paddingTop: 20,  
     },
 
+    outerActivityContainer: {
+        borderWidth: 2,
+        borderColor: 'rgba(0, 0, 0, 0.1)', // Semi-transparent black
+        marginBottom: 8,
+        borderRadius: 10,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 6,
+        elevation: 6,
+        backgroundColor: 'transparent', // Important for the gradient to show
+    },
+    
     activityContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        borderWidth: 2,
-        borderColor: '#ddd',
-        marginBottom: 8,
-        backgroundColor: '#e7f5ff', // Light blue background color
-        borderRadius: 10, // Soft rounded corners for a softer look
-        shadowColor: '#000', // Shadow color for the floating effect
-        shadowOffset: {
-            width: 0,
-            height: 4, // Slightly elevated shadow for a floating look
-        },
-        shadowOpacity: 0.3, // Subtle shadow opacity
-        shadowRadius: 6, // Soft shadow spread
-        elevation: 6, // Elevation for Android to create depth
         paddingVertical: 15,
         paddingRight: 15,
+        borderRadius: 10, // Match the borderRadius with the outer container
     },
+    
 
     activityTextContainer: {
         flex: 1,
@@ -74,27 +78,24 @@ const styles = StyleSheet.create({
         width: 24, // Adjust the width and height for your icon size
         height: 24,
         tintColor: 'red', // Change the color as needed
-        borderRadius: 8,
     },
     
     markDoneIcon: {
-        width:35, // Adjust the width and height for your icon size
-        height:35,
-        borderRadius: 8,
+        width: 24, // Adjust the width and height for your icon size
+        height: 24,
+        marginRight: 3,
 
     },
     markUndoneIcon: {
-        width:35, // Adjust the width and height for your icon size
-        height:35,
-        borderRadius: 8,
-
+        width: 24, // Adjust the width and height for your icon size
+        height: 24,
+        marginRight: 15,
     },
 
     editButtonIcon: {
         width: 24, // Adjust the width and height for your icon size
         height: 24,
         tintColor: 'black', // Change the color as needed
-        borderRadius: 8,
         marginRight: 10,
     },
     arrowIcon: {

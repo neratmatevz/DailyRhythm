@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, Text, Modal, TouchableOpacity } from 'react-native';
+import { View, Text, Modal, TouchableOpacity, Image } from 'react-native';
 import styles from './PopupAktivnost.style';
-
+import moment from 'moment';
 
 function PopupAktivnost({ visible, onClose, activity }) {
     if (!visible || !activity) {
@@ -22,19 +22,19 @@ function PopupAktivnost({ visible, onClose, activity }) {
                 <View style={styles.popupContent}>
                     <View style={styles.closeButtonContainer}>
                         <TouchableOpacity onPress={onClose}>
-                            <Text style={styles.closeButton}>X</Text>
+                        <Image source={require('../../../Assets/Icons/close.png')} style={styles.close} />
                         </TouchableOpacity>
                     </View>
                     {/* Activity Name Box */}
-                    <Box title="Activity">
-                        <Text style={styles.detailValue}>{activity.ime}</Text>
-                    </Box>
+                    <Text style={styles.heading}>{activity.ime}</Text> 
+                       
+                    
 
                     {/* Date Box */}
                     <Box title="Schedule">
-                        <Text style={styles.detailValue}>Date: {activity.datum}</Text>
-                        <Text style={styles.detailValue}>Start Time: {activity.uraZacetka}</Text>
-                        <Text style={styles.detailValue}>End Time: {activity.uraZakljucka}</Text>
+                        <Text style={styles.detailValue1}>Date: {activity.datum}</Text>
+                        <Text style={styles.detailValue1}>Start Time: {moment(activity.uraZacetka).format('HH:mm')}</Text>
+                        <Text style={styles.detailValue}>End Time: {moment(activity.uraZakljucka).format('HH:mm')}</Text>
                     </Box>
 
                     {/* Other Details */}

@@ -5,24 +5,28 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingHorizontal: 16,
-        marginHorizontal: 1,
+        marginHorizontal: 5,
     },
+
     picker: {
-        width: 50, // Set a fixed width for all pickers
-        height: 50, // Set a fixed height for all pickers
+        width: 50,
+        height: 50,
         backgroundColor: '#f5f5f5', // Very light gray background color
-        borderRadius: 10, // Rounded corners
-        alignItems: 'center', // Center content horizontally
-        justifyContent: 'center', // Center content vertically
-        shadowColor: '#000', // Shadow color
-        shadowOffset: {
-            width: 0,
-            height: 3, // Stronger shadow (adjust height as needed)
-        },
-        shadowOpacity: 0.7, // Stronger shadow opacity
-        shadowRadius: 4, // Shadow radius
-        elevation: 8, // Android shadow
+        borderRadius: 10, // Increased border radius for a softer look
+        alignItems: 'center',
+        justifyContent: 'center',
+        shadowRadius: 0, // Soft shadow spread
+        elevation: 6, // Adjust elevation for Android
+        marginTop: 5,
     },
+    
+    selectedPicker: {
+        backgroundColor: '#cccccc', // Slightly darker shade for selected state
+        // Inherit other styles from `picker`
+    },
+
+    
+
     itemRow: {
         flexDirection: 'row',
         alignItems: 'center',

@@ -8,6 +8,7 @@ import moment from 'moment';
 import PopupAktivnost from './PopupAktivnost';
 import AddAktivnost from './AddAktivnost';
 import EditAktivnost from './EditAktivnost';
+import { LinearGradient } from 'expo-linear-gradient';
 
 function Aktivnosti({ selectedDate, selectedweekday }) {
 
@@ -18,6 +19,8 @@ function Aktivnosti({ selectedDate, selectedweekday }) {
     const [addPopupVisible, setAddPopupVisible] = useState(false);
     const [editPopupVisible, setEditPopupVisible] = useState(false);
 
+
+    //Dodaj aktivnosti v bazo
 
     const onAddActivity = (newActivity) => {
 
@@ -39,6 +42,7 @@ function Aktivnosti({ selectedDate, selectedweekday }) {
         });
     };
 
+    //Urejaj aktivnosti v bazi
     const onEditActivity = (updatedActivity) => {
         updatedActivity.datum = moment(updatedActivity.datum).format('YYYY-MM-DD');
         updatedActivity.datumUraOpomnika = moment(updatedActivity.datumUraOpomnika).format('YYYY-MM-DD');
@@ -63,6 +67,21 @@ function Aktivnosti({ selectedDate, selectedweekday }) {
         setEditPopupVisible(false);
     };
 
+    //izbriši aktivnost
+    const onDeleteActivity = (activityId) => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                'DELETE FROM aktivnost WHERE id = ?;',
+                [activityId],
+                () => {
+                    console.log("Activity deleted");
+                    // Remove the activity from the state
+                    setActivities(currentActivities => currentActivities.filter(activity => activity.id !== activityId));
+                },
+                (txObj, error) => console.log('Error deleting activity', error)
+            );
+        });
+    };
 
     useEffect(() => {
 
@@ -122,7 +141,7 @@ function Aktivnosti({ selectedDate, selectedweekday }) {
                     // Dodaj točke k profilu
                     db.transaction((tx) => {
                         tx.executeSql(
-                            'UPDATE profil SET stTock = stTock + ? WHERE id = 1;', 
+                            'UPDATE profil SET stTock = stTock + ? WHERE id = 1;',
                             [activity.stTock],
                             () => {
                                 console.log('Aktivnost je bila označena kot opravljena in dodane so bile točke.');
@@ -135,7 +154,7 @@ function Aktivnosti({ selectedDate, selectedweekday }) {
             );
         });
     };
-    
+
     const handleMarkAsUndone = (activity) => {
         db.transaction((tx) => {
             tx.executeSql(
@@ -145,7 +164,7 @@ function Aktivnosti({ selectedDate, selectedweekday }) {
                     // Odstrani točke iz profila
                     db.transaction((tx) => {
                         tx.executeSql(
-                            'UPDATE profil SET stTock = stTock - ? WHERE id = 1;', 
+                            'UPDATE profil SET stTock = stTock - ? WHERE id = 1;',
                             [activity.stTock],
                             () => {
                                 console.log('Aktivnost je bila označena kot neopravljena in odstranjene so bile točke.');
@@ -175,12 +194,16 @@ function Aktivnosti({ selectedDate, selectedweekday }) {
                             <View key={activity.id}>
                                 <View style={styles.activityTimeContainer}>
                                     <Text style={styles.activityTime}>
-                                        {`${moment(activity.uraZacetka, 'HH:mm:ss').format('HH:mm')} `}
-                                        <Image source={require('../../../Assets/Icons/arrow.jpg')} style={styles.arrowIcon} />
-                                        {` ${moment(activity.uraZakljucka, 'HH:mm:ss').format('HH:mm')}`}
+                                        {`${moment(activity.uraZacetka).format('HH:mm')} -- ${moment(activity.uraZakljucka).format('HH:mm')}`}
                                     </Text>
                                 </View>
-                                <View style={styles.activityContainer}>
+                                <View key={activity.id} style={styles.outerActivityContainer}>
+                                <LinearGradient
+                                    colors={['#d3d3d3', '#f0f0f0', '#d3d3d3']} // Adjust gradient colors as needed
+                                    start={{ x: 0.5, y: 0 }}
+                                    end={{ x: 0.5, y: 1 }}
+                                    style={styles.activityContainer}
+                                >
                                     <View style={styles.activityTextContainer}>
                                         <TouchableOpacity onPress={() => handleActivityClick(activity)}>
                                             <Text style={styles.activityText}>{`${activity.ime}`}</Text>
@@ -189,19 +212,20 @@ function Aktivnosti({ selectedDate, selectedweekday }) {
                                     {/* GUMBI OPRAVLJENO, NEOPRAVLJENO, EDIT, DELETE */}
                                     <View style={styles.buttonRow}>
                                         <TouchableOpacity onPress={() => handleMarkAsDone(activity)}>
-                                            <Image source={require('../../../Assets/Icons/checkicon.jpg')} style={styles.markDoneIcon} />
+                                            <Image source={require('../../../Assets/Icons/checkicon1.png')} style={styles.markDoneIcon} />
                                         </TouchableOpacity>
                                         <TouchableOpacity onPress={() => handleMarkAsUndone(activity)}>
-                                            <Image source={require('../../../Assets/Icons/crossicon.png')} style={styles.markUndoneIcon} />
+                                            <Image source={require('../../../Assets/Icons/crossicon1.png')} style={styles.markUndoneIcon} />
                                         </TouchableOpacity>
                                         <TouchableOpacity onPress={() => handleEditClick(activity, "edit")}>
-                                            <Image source={require('../../../Assets/Icons/editicon.png')} style={styles.editButtonIcon} />
+                                            <Image source={require('../../../Assets/Icons/editicon1.png')} style={styles.editButtonIcon} />
                                         </TouchableOpacity>
-                                        <TouchableOpacity onPress={() => handleActivityClick(activity, 'delete')}>
-                                            <Image source={require('../../../Assets/Icons/deleteicon.png')} style={styles.deleteButtonIcon} />
+                                        <TouchableOpacity onPress={() => onDeleteActivity(activity.id)}>
+                                            <Image source={require('../../../Assets/Icons/deleteicon1.png')} style={styles.deleteButtonIcon} />
                                         </TouchableOpacity>
                                     </View>
 
+                                </LinearGradient>
                                 </View>
                             </View>
                         ))}
