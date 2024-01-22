@@ -7,7 +7,7 @@ import styles from './Aktivnosti.style';
 import moment from 'moment';
 import PopupAktivnost from './PopupAktivnost';
 import AddAktivnost from './AddAktivnost';
-
+import EditAktivnost from './EditAktivnost';
 
 function Aktivnosti({ selectedDate, selectedweekday }) {
 
@@ -16,20 +16,53 @@ function Aktivnosti({ selectedDate, selectedweekday }) {
     const [popupVisible, setPopupVisible] = useState(false);
     const [selectedActivity, setSelectedActivity] = useState(null);
     const [addPopupVisible, setAddPopupVisible] = useState(false);
+    const [editPopupVisible, setEditPopupVisible] = useState(false);
+
 
     const onAddActivity = (newActivity) => {
+
+        newActivity.datum = moment(newActivity.datum).format('YYYY-MM-DD');
+        newActivity.datumUraOpomnika = moment(newActivity.datumUraOpomnika).format('YYYY-MM-DD');
+
         db.transaction((tx) => {
             tx.executeSql(
                 `INSERT INTO aktivnost (datum, uraZacetka, uraZakljucka, ime, opis, stTock, datumUraOpomnika, opravljena) VALUES (?, ?, ?, ?, ?, ?, ?, ?);`,
-                [newActivity.datum, newActivity.uraZacetka, newActivity.uraZakljucka, newActivity.ime, newActivity.opis, newActivity.stTock, newActivity.datumUraOpomnika, newActivity.opravljena],
-                (_, result) => {
+                [newActivity.datum, newActivity.uraZacetka, newActivity.uraZakljucka, newActivity.ime, newActivity.opis, newActivity.stTock, newActivity.datumUraOpomnika, newActivity.opravljena],                (_, result) => {
                     // Add the new activity to the existing activities array
                     setActivities(currentActivities => [...currentActivities, { ...newActivity, id: result.insertId }]);
+                    console.log("vstavljena");
+                    console.log(newActivity);
                 },
+
                 (txObj, error) => console.log('Error', error)
             );
         });
     };
+
+    const onEditActivity = (updatedActivity) => {
+        updatedActivity.datum = moment(updatedActivity.datum).format('YYYY-MM-DD');
+        updatedActivity.datumUraOpomnika = moment(updatedActivity.datumUraOpomnika).format('YYYY-MM-DD');
+    
+        db.transaction((tx) => {
+            tx.executeSql(
+                `UPDATE aktivnost SET datum = ?, uraZacetka = ?, uraZakljucka = ?, ime = ?, opis = ?, stTock = ?, datumUraOpomnika = ?, opravljena = ? WHERE id = ?;`,
+                [updatedActivity.datum, updatedActivity.uraZacetka, updatedActivity.uraZakljucka, updatedActivity.ime, updatedActivity.opis, updatedActivity.stTock, updatedActivity.datumUraOpomnika, updatedActivity.opravljena, updatedActivity.id],
+                () => {
+                    setActivities(currentActivities => currentActivities.map(activity => {
+                        if (activity.id === updatedActivity.id) {
+                            return updatedActivity;
+                        }
+                        return activity;
+                    }));
+                    console.log("Updated");
+                    console.log(updatedActivity);
+                },
+                (txObj, error) => console.log('Error', error)
+            );
+        });
+        setEditPopupVisible(false); // Close the edit modal
+    };
+    
     
     useEffect(() => {
 
@@ -67,10 +100,11 @@ function Aktivnosti({ selectedDate, selectedweekday }) {
     };
 
 
-    const handleAddActivityClick = () => {
-        setAddPopupVisible(true); 
+    const handleEditClick = (activity) => {
+        setSelectedActivity(activity);
+        setEditPopupVisible(true);
     };
-
+    
     const handleClosePopup = () => {
         setPopupVisible(false);
 
@@ -103,9 +137,9 @@ function Aktivnosti({ selectedDate, selectedweekday }) {
                                             <Text style={styles.activityText}>{`${activity.ime}`}</Text>
                                         </TouchableOpacity>
                                     </View>
-
+                                    {/* GUMBI OPRAVLJENO, NEOPRAVLJENO, EDIT, DELETE */}
                                     <View style={styles.buttonRow}>
-                                        <TouchableOpacity onPress={() => handleActivityClick(activity, 'edit')}>
+                                        <TouchableOpacity onPress={() => handleEditClick(activity, 'edit')}>
                                             <Image source={require('../../../Assets/Icons/editicon.png')} style={styles.editButtonIcon} />
                                         </TouchableOpacity>
                                         <TouchableOpacity onPress={() => handleActivityClick(activity, 'delete')}>
@@ -128,6 +162,7 @@ function Aktivnosti({ selectedDate, selectedweekday }) {
                 {/* Popup za izbran activity */}
                 <PopupAktivnost visible={popupVisible} onClose={handleClosePopup} activity={selectedActivity} />
                 <AddAktivnost visible={addPopupVisible} onClose={() => setAddPopupVisible(false)} onAdd={onAddActivity} />
+                <EditAktivnost visible={editPopupVisible} activity={selectedActivity}  onClose={() => setEditPopupVisible(false)} onEdit={onEditActivity} />
             </View>
 
 

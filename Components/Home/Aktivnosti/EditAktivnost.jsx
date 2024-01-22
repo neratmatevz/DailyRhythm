@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Modal, TouchableOpacity, TextInput } from 'react-native';
 import styles from './AddAktivnost.style'; // Adjust the path as needed
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-function AddAktivnost({ visible, onClose, onAdd }) {
+
+function EditAktivnost({ visible, onClose, onEdit, activity }) {
+   
     const [datum, setDatum] = useState(new Date());
     const [uraZacetka, setUraZacetka] = useState(new Date());
     const [uraZakljucka, setUraZakljucka] = useState(new Date());
@@ -15,30 +17,35 @@ function AddAktivnost({ visible, onClose, onAdd }) {
         datum: false,
         uraZacetka: false,
         uraZakljucka: false,
-        datumUraOpomnika: false
+        datumUraOpomnikaDate: false,
+        datumUraOpomnikaTime: false
     });
+    
 
     if (!visible) {
         return null;
     }
 
+  
+    
     const handleSave = () => {
-        const newActivity = {
+        const updatedActivity = {
+            id: activity.id,
             datum: datum.toISOString(),
             uraZacetka: uraZacetka.toISOString(),
             uraZakljucka: uraZakljucka.toISOString(),
-            ime,
-            opis,
-            stTock: parseInt(stTock, 10),
+            ime: ime,
+            opis: opis,
+            stTock: parseInt(stTock, 10), // Assuming 'stTock' is an integer
             datumUraOpomnika: datumUraOpomnika.toISOString(),
-            opravljena: false
+            opravljena: activity.opravljena // Assuming you're not changing this in EditAktivnost
         };
-
-        //console.log(newActivity);
-        onAdd(newActivity);
+    
+        onEdit(updatedActivity);
         onClose();
     };
-
+    
+    
     return (
         <Modal transparent visible={visible} onRequestClose={onClose}>
             <View style={styles.popupContainer}>
@@ -150,4 +157,4 @@ function AddAktivnost({ visible, onClose, onAdd }) {
     );
 }
 
-export default AddAktivnost;
+export default EditAktivnost;
