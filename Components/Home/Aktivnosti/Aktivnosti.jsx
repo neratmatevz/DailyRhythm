@@ -99,6 +99,9 @@ function Aktivnosti({ selectedDate, selectedweekday }) {
         console.log(activity.ime);
     };
 
+    const handleAddActivityClick = (activity) => {
+        setAddPopupVisible(true);
+    };
 
     const handleEditClick = (activity) => {
         setSelectedActivity(activity);
