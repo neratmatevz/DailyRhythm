@@ -81,7 +81,7 @@ const initDatabase = () => {
                 )*/
                 /*tx.executeSql(
                     'UPDATE profil SET stTock = ? WHERE id = ?;',
-                    [5240, 1],
+                    [6001, 1],
                     (_, updateResult) => {
                         // Success callback for the UPDATE statement
                         console.log('Row updated successfully:', updateResult);

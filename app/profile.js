@@ -21,6 +21,7 @@ const Profile = () => {
     const [nextLevelPoints, setNextLevelPoints] = useState(0);
     const [popUpVisible, setPopUpVisible] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [levelsState, setLevelsState] = useState([]);
 
     useEffect(() => {
         db.transaction((tx) => {
@@ -54,13 +55,16 @@ const Profile = () => {
                     const levels = result.rows._array;
 
                     if (levels !== undefined) {
-                        console.log(JSON.stringify(levels));
                         const levelName = getNameOfLevel(profile.level, levels);
                         const nextLevelPoints = getPointsForNextLevel(profile.level, levels);
+                        const previousLevelPoints = getPointsForPreviousLevel(profile.level,levels);
                         setNextLevelPoints(nextLevelPoints);
                         setLevelName(levelName);
-                        let ratioC = parseFloat(points) / parseFloat(nextLevelPoints);
+                        const totalRange = parseFloat(nextLevelPoints) - parseFloat(previousLevelPoints);
+                        const pointsWithinRange = parseFloat(points) - parseFloat(previousLevelPoints);
+                        let ratioC = pointsWithinRange / totalRange;
                         setRatio(ratioC);
+                        setLevelsState(levels);
                     } else {
                         console.error("Levels undefined");
                     }
@@ -76,6 +80,23 @@ const Profile = () => {
 
     }, [points]);
 
+    useEffect(() => {
+        if (loading === false && levelsState.length > 0 && profile !== undefined) {
+            // Check if the profile level corresponds to the amount of points
+            const nextLevelPoints = getPointsForNextLevel(profile.level, levelsState);
+            const previousLevelPoints = getPointsForPreviousLevel(profile.level, levelsState);
+    
+            if (profile.stTock >= nextLevelPoints || profile.stTock <= previousLevelPoints) {
+                // Update the profile's level if points are greater than or equal to nextLevelPoints
+                const newLevel = getNewLevel(profile.stTock, levelsState);
+                const levelName = getNameOfLevel(newLevel, levelsState);
+                const nextLevelPoints = getPointsForNextLevel(newLevel, levelsState);
+                updateProfileLevel(newLevel, levelName, nextLevelPoints);
+                console.log(newLevel);
+            }
+        }
+    }, [loading, levelsState]);
+
     const getNameOfLevel = (profileLevel, levels) => {
         let levelName = levels.find((level) => profileLevel === level.level).naziv;
         return levelName;
@@ -85,12 +106,46 @@ const Profile = () => {
         return levels.find((level) => profileLevel === level.level).do;
     }
 
+    const getPointsForPreviousLevel = (profileLevel, levels) => {
+        return levels.find((level) => profileLevel === level.level).od;
+    }
+
     const closePopup = () => {
         setPopUpVisible(false)
     }
 
     const onUpdateProfile = (updatedProfile) => {
         setProfile(updatedProfile);
+    };
+
+    // Function to update the profile level in the database
+    const updateProfileLevel = (newLevel, levelName, nextLevelPoints) => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                'UPDATE profil SET level = ? WHERE id = 1;',
+                [newLevel],
+                (_, updateResult) => {
+                    console.log('Profile level updated successfully:', updateResult);
+                    setProfile((prevProfile) => ({ ...prevProfile, level: newLevel }));
+                    setLevelName(levelName);
+                    setNextLevelPoints(nextLevelPoints);
+                },
+                (_, updateError) => {
+                    console.error('Error updating profile level:', updateError);
+                }
+            );
+        });
+    };
+
+    // Function to get the new level based on the amount of points
+    const getNewLevel = (points, levels) => {
+        for (const level of levels) {
+            if (points <= level.do && points >= level.od) {
+                return level.level;
+            }
+        }
+        // If points are greater than the highest level, return the highest level
+        return levels[levels.length - 1].level;
     };
 
     return (
