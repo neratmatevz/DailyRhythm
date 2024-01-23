@@ -116,7 +116,6 @@ const initDatabase = () => {
             }
         )
 
-
         //Table dosezek
         tx.executeSql(
             `CREATE TABLE IF NOT EXISTS dosezek (

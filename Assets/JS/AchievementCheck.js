@@ -1,10 +1,53 @@
 import db from "../Database/db"
 
+import axios from 'axios';
+
+const sendEmail = async () => {
+  const apiKey = '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';
+  const apiUrl = 'https://api.sendgrid.com/v3/mail/send';
+
+  try {
+    const response = await axios.post(apiUrl, {
+      personalizations: [
+        {
+          to: [
+            {
+              email: 'matevz.nerat@student.um.si',
+            },
+          ],
+          subject: 'You have a new achievement!',
+        },
+      ],
+      from: {
+        email: 'vivien.stampfer@student.um.si',
+      },
+      content: [
+        {
+          type: 'text/plain',
+          value: 'Cpmgratulations! You have earned a new achievement!',
+        },
+      ],
+    }, {
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    console.log('Email sent successfully:', response.data);
+  } catch (error) {
+    console.error('Error sending email:', error);
+  }
+};
+
+
 export const checkAchievementComplete = () => {
     return new Promise((resolve, reject) => {
         let datum = new Date().toISOString().slice(0, 19).replace("T", " ");
         let tocke;
         let updateQuery;
+
+        
 
         db.transaction((tx) => {
             tx.executeSql(
@@ -42,7 +85,7 @@ export const checkAchievementComplete = () => {
                                             [datum, updateQuery],
                                             (_, result) => {
                                                 console.log("Updated achievement with new date!");
-                                                // Resolve with true when the achievement is set as conquered
+                                                sendEmail();
                                                 resolve(true);
                                             },
                                             (_, error) => {
