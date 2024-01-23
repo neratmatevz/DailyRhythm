@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
         fontSize: 15,
         fontWeight: 'bold',
         color: '#2c3e50', // Adjust the color as needed
+        textTransform: 'uppercase', // Make letters uppercase
     },
 
     deleteButtonContainer: {

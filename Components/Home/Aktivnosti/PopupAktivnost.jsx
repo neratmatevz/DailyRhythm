@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, Text, Modal, TouchableOpacity, Image } from 'react-native';
+import { View, Text, Modal, TouchableOpacity, Image, ScrollView } from 'react-native';
 import styles from './PopupAktivnost.style';
 import moment from 'moment';
+
 
 function PopupAktivnost({ visible, onClose, activity }) {
     if (!visible || !activity) {
@@ -22,33 +23,48 @@ function PopupAktivnost({ visible, onClose, activity }) {
                 <View style={styles.popupContent}>
                     <View style={styles.closeButtonContainer}>
                         <TouchableOpacity onPress={onClose}>
-                        <Image source={require('../../../Assets/Icons/close.png')} style={styles.close} />
+                            <Image source={require('../../../Assets/Icons/close.png')} style={styles.close} />
                         </TouchableOpacity>
                     </View>
-                    {/* Activity Name Box */}
-                    <Text style={styles.heading}>{activity.ime}</Text> 
-                       
                     
+                    {/* Activity Name Box */}
+                    <Text style={styles.heading}>{activity.ime}</Text>
+                    <Text style={styles.dateText}>{activity.datum}</Text>
+
 
                     {/* Date Box */}
-                    <Box title="Schedule">
-                        <Text style={styles.detailValue1}>Date: {activity.datum}</Text>
-                        <Text style={styles.detailValue1}>Start Time: {moment(activity.uraZacetka).format('HH:mm')}</Text>
-                        <Text style={styles.detailValue}>End Time: {moment(activity.uraZakljucka).format('HH:mm')}</Text>
-                    </Box>
+                    <View style={styles.scheduleBox}>
+                        <Text style={styles.scheduleText}>
+                            {moment(activity.uraZacetka).format('HH:mm')}                        {moment(activity.uraZakljucka).format('HH:mm')}
+                        </Text>
+                        <Image source={require('../../../Assets/Icons/timeline.png')} style={styles.timeline} />
+
+                    </View>
 
                     {/* Other Details */}
                     <Box title="Description">
-                        <Text style={styles.detailValue}>{activity.opis}</Text>
+                        <ScrollView style={styles.descriptionBox}>
+                            <Text style={styles.opis}>{activity.opis}</Text>
+                        </ScrollView>
                     </Box>
-                    <Box title="Points">
-                        <Text style={styles.detailValue}>{activity.stTock}</Text>
-                    </Box>
-                    <Box title="Reminder Date">
-                        <Text style={styles.detailValue}>{activity.datumUraOpomnika}</Text>
-                    </Box>
-                    <Box title="Completed">
-                        <Text style={styles.detailValue}>{activity.opravljena ? 'Yes' : 'No'}</Text>
+                    <Box>
+                        <View style={styles.pointsContainer}>
+                            {/* Status Icon */}
+                            <Image
+                                source={activity.opravljena ? require('../../../Assets/Icons/doneicon.png') : require('../../../Assets/Icons/cancel.png')}
+                                style={styles.statusIcon}
+                            />
+
+                            {/* Spacer View if needed for alignment */}
+                            <View style={{ flex: 1 }} />
+
+                            {/* Points */}
+                            <Image
+                                source={require('../../../Assets/Icons/pointsicon.png')}
+                                style={styles.pointsIcon}
+                            />
+                            <Text style={styles.pointsText}>{activity.stTock}</Text>
+                        </View>
                     </Box>
                 </View>
             </View>
