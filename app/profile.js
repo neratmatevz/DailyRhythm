@@ -30,6 +30,7 @@ const Profile = () => {
                 [],
                 (_, result) => {
                     const profile = result.rows._array[0];
+                    console.log(profile);
 
                     if (profile !== undefined && profile !== null) {
                         setProfile((prevProfile) => {

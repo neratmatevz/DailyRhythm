@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Modal, TouchableOpacity, TextInput, Image } from 'react-native';
-import styles from './EditAktivnost.style'; // Adjust the path as needed
+import styles from './EditAktivnost.style'; 
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 
@@ -49,9 +49,9 @@ function EditAktivnost({ visible, onClose, onEdit, activity }) {
             uraZakljucka: uraZakljucka.toISOString(),
             ime: ime,
             opis: opis,
-            stTock: parseInt(stTock, 10), // Assuming 'stTock' is an integer
+            stTock: parseInt(stTock, 10),
             datumUraOpomnika: datumUraOpomnika.toISOString(),
-            opravljena: activity.opravljena // Assuming you're not changing this in EditAktivnost
+            opravljena: activity.opravljena 
         };
 
         onEdit(updatedActivity);
@@ -94,7 +94,7 @@ function EditAktivnost({ visible, onClose, onEdit, activity }) {
                     <TouchableOpacity style={styles.datePickerContainer} onPress={() => setShowDatePicker({ ...showDatePicker, datum: true })}>
                         <Text style={styles.datePickerText}>{datum ? moment(datum).format('DD/MM/YYYY') : 'Select Datum'}</Text>
                         <Image
-                            source={require('../../../Assets/Icons/datepickericon1.jpg')} // Replace with your calendar icon
+                            source={require('../../../Assets/Icons/datepickericon1.jpg')} 
                             style={styles.datePickerIcon}
                         />
                     </TouchableOpacity>
@@ -115,7 +115,7 @@ function EditAktivnost({ visible, onClose, onEdit, activity }) {
                             {uraZacetka ? moment(uraZacetka).format('HH:mm') : 'Select Ura Zacetka'}
                         </Text>
                         <Image
-                            source={require('../../../Assets/Icons/timeicon.png')} // Replace with your timer icon
+                            source={require('../../../Assets/Icons/timeicon.png')}
                             style={styles.datePickerIcon}
                         />
                     </TouchableOpacity>
@@ -137,7 +137,7 @@ function EditAktivnost({ visible, onClose, onEdit, activity }) {
                             {uraZakljucka ? moment(uraZakljucka).format('HH:mm') : 'Select Ura Zakljucka'}
                         </Text>
                         <Image
-                            source={require('../../../Assets/Icons/timeicon.png')} // Replace with your timer icon
+                            source={require('../../../Assets/Icons/timeicon.png')} 
                             style={styles.datePickerIcon}
                         />
                     </TouchableOpacity>
@@ -158,7 +158,7 @@ function EditAktivnost({ visible, onClose, onEdit, activity }) {
                     <View style={styles.buttonsContainer}>
                         <TouchableOpacity style={[styles.buttonContainer, styles.saveContainer]} onPress={handleSave}>
                             <Image
-                                source={require('../../../Assets/Icons/saveaktivnost.png')} // Replace with your save image
+                                source={require('../../../Assets/Icons/saveaktivnost.png')} 
                                 style={styles.buttonImage}
                             />
                             <Text style={styles.saveButtonText}>Save</Text>
@@ -166,7 +166,7 @@ function EditAktivnost({ visible, onClose, onEdit, activity }) {
 
                         <TouchableOpacity style={[styles.buttonContainer, styles.cancelContainer]} onPress={onClose}>
                             <Image
-                                source={require('../../../Assets/Icons/cancelaktivnost.png')} // Replace with your cancel image
+                                source={require('../../../Assets/Icons/cancelaktivnost.png')}
                                 style={styles.buttonImage}
                             />
                             <Text style={styles.cancelButtonText}>Cancel</Text>

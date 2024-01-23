@@ -207,7 +207,7 @@ function Aktivnosti({ selectedDate, selectedweekday }) {
 
                                 <View key={activity.id} style={styles.outerActivityContainer}>
                                     <LinearGradient
-                                        colors={['#d3d3d3', '#f0f0f0', '#d3d3d3']} // Adjust gradient colors as needed
+                                        colors={['#d3d3d3', '#f0f0f0', '#d3d3d3']}
                                         start={{ x: 0.5, y: 0 }}
                                         end={{ x: 0.5, y: 1 }}
                                         style={styles.activityContainer}
