@@ -156,12 +156,6 @@ const Profile = () => {
                 <>
                     <Stack.Screen
                         options={{
-                            headerLeft: () => {
-                                <HomeHeaderBtn
-                                    icon={require("../Assets/Icons/left.png")}
-                                    handlePress={() => router.back()}
-                                />
-                            },
                             headerRight: () =>
                                 <HomeHeaderBtn
                                     icon={require("../Assets/Icons/edit.png")}
