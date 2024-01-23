@@ -153,6 +153,16 @@ const initDatabase = () => {
                         console.error('Error inserting row:', error);
                     }
                 );*/
+                /*db.transaction((tx) => {
+                    tx.executeSql(
+                        'UPDATE dosezek SET datumOsvojitve = ? WHERE naziv = ?;',
+                        [null, "5000 points"],
+                        (_,result) => {
+                            console.log("Updated achievement with null!");
+                        },
+                        (_, error) => console.log('Error updating datumOsvojitve:', error)
+                    );
+                });*/
             },
             (_, error) => {
                 // Error callback for table creation
