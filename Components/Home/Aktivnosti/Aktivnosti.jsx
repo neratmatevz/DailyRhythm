@@ -10,6 +10,7 @@ import AddAktivnost from './AddAktivnost';
 import EditAktivnost from './EditAktivnost';
 import { LinearGradient } from 'expo-linear-gradient';
 import { checkAchievementComplete } from '../../../Assets/JS/AchievementCheck';
+import ConqueredAchPopUp from './ConqueredAchPopUp';
 
 function Aktivnosti({ selectedDate, selectedweekday }) {
 
@@ -20,7 +21,7 @@ function Aktivnosti({ selectedDate, selectedweekday }) {
     const [addPopupVisible, setAddPopupVisible] = useState(false);
     const [editPopupVisible, setEditPopupVisible] = useState(false);
     const [conqueredAchievement, setConqueredAchievement] = useState(false);
-
+    
 
     //Dodaj aktivnosti v bazo
 
@@ -135,7 +136,6 @@ function Aktivnosti({ selectedDate, selectedweekday }) {
     };
 
     const handleMarkAsDone = (activity) => {
-        let conquered;
         db.transaction((tx) => {
             tx.executeSql(
                 'UPDATE aktivnost SET opravljena = 1 WHERE id = ?;',
@@ -259,7 +259,7 @@ function Aktivnosti({ selectedDate, selectedweekday }) {
                             <Text style={styles.addButtonText}>+</Text>
                         </TouchableOpacity>
                     </View>
-                    {conqueredAchievement ? <Text>New Achievement complete</Text> : <></>}
+                    
                 </View>
 
 
@@ -267,6 +267,7 @@ function Aktivnosti({ selectedDate, selectedweekday }) {
                 <PopupAktivnost visible={popupVisible} onClose={handleClosePopup} activity={selectedActivity} />
                 <AddAktivnost visible={addPopupVisible} onClose={() => setAddPopupVisible(false)} onAdd={onAddActivity} />
                 <EditAktivnost visible={editPopupVisible} activity={selectedActivity} onClose={() => setEditPopupVisible(false)} onEdit={onEditActivity} />
+                <ConqueredAchPopUp visible = {conqueredAchievement} onClose={() => setConqueredAchievement(false)} />
             </View>
 
             {/* Dodajanje in odstranjevanje  */}
