@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Modal, TouchableOpacity, TextInput } from 'react-native';
-import styles from './AddAktivnost.style'; // Adjust the path as needed
+import { View, Text, Modal, TouchableOpacity, TextInput, Image } from 'react-native';
+import styles from './EditAktivnost.style'; // Adjust the path as needed
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 
@@ -60,21 +60,27 @@ function EditAktivnost({ visible, onClose, onEdit, activity }) {
 
 
     return (
+        
         <Modal transparent visible={visible} onRequestClose={onClose}>
-            <View style={styles.popupContainer}>
+            <View style={styles.popupContainer} >
                 <View style={styles.popupContent}>
+                    <Text style={styles.label}>Ime</Text>
                     <TextInput
                         style={styles.input}
                         placeholder="Ime"
                         value={ime}
                         onChangeText={setIme}
                     />
+
+                    <Text style={styles.label}>Opis</Text>
                     <TextInput
                         style={styles.input}
                         placeholder="Opis"
                         value={opis}
                         onChangeText={setOpis}
                     />
+
+                    <Text style={styles.label}>Št. točk</Text>
                     <TextInput
                         style={styles.input}
                         placeholder="Št. točk"
@@ -82,23 +88,36 @@ function EditAktivnost({ visible, onClose, onEdit, activity }) {
                         keyboardType="numeric"
                         onChangeText={setStTock}
                     />
-                    <TouchableOpacity onPress={() => setShowDatePicker({ ...showDatePicker, datum: true })}>
-                        <Text>Datum: {moment(datum).format('DD.MM.YYYY')}</Text>
+
+                    <Text style={styles.label}>Datum</Text>
+                    {/* Date Picker */}
+                    <TouchableOpacity style={styles.datePickerContainer} onPress={() => setShowDatePicker({ ...showDatePicker, datum: true })}>
+                        <Text style={styles.datePickerText}>{datum ? moment(datum).format('DD/MM/YYYY') : 'Select Datum'}</Text>
+                        <Image
+                            source={require('../../../Assets/Icons/datepickericon1.jpg')} // Replace with your calendar icon
+                            style={styles.datePickerIcon}
+                        />
                     </TouchableOpacity>
                     {showDatePicker.datum && (
                         <DateTimePicker
-                            value={datum}
+                            value={datum ? new Date(datum) : new Date()}
                             mode="date"
                             display="default"
                             onChange={(event, selectedDate) => {
                                 setShowDatePicker({ ...showDatePicker, datum: false });
-                                setDatum(selectedDate || datum);
+                                setDatum(selectedDate);
                             }}
                         />
                     )}
-
-                    <TouchableOpacity onPress={() => setShowDatePicker({ ...showDatePicker, uraZacetka: true })}>
-                        <Text>Ura zacetka: {moment(uraZacetka).format('HH:mm')}</Text>
+                    <Text style={styles.label}>Ura Zacetka</Text>
+                    <TouchableOpacity style={styles.datePickerContainer} onPress={() => setShowDatePicker({ ...showDatePicker, uraZacetka: true })}>
+                        <Text style={styles.datePickerText}>
+                            {uraZacetka ? moment(uraZacetka).format('HH:mm') : 'Select Ura Zacetka'}
+                        </Text>
+                        <Image
+                            source={require('../../../Assets/Icons/timeicon.png')} // Replace with your timer icon
+                            style={styles.datePickerIcon}
+                        />
                     </TouchableOpacity>
                     {showDatePicker.uraZacetka && (
                         <DateTimePicker
@@ -112,8 +131,15 @@ function EditAktivnost({ visible, onClose, onEdit, activity }) {
                         />
                     )}
 
-                    <TouchableOpacity onPress={() => setShowDatePicker({ ...showDatePicker, uraZakljucka: true })}>
-                        <Text>Ura zakljucka: {moment(uraZakljucka).format('HH:mm')}</Text>
+                    <Text style={styles.label}>Ura Zakljucka</Text>
+                    <TouchableOpacity style={styles.datePickerContainer} onPress={() => setShowDatePicker({ ...showDatePicker, uraZakljucka: true })}>
+                        <Text style={styles.datePickerText}>
+                            {uraZakljucka ? moment(uraZakljucka).format('HH:mm') : 'Select Ura Zakljucka'}
+                        </Text>
+                        <Image
+                            source={require('../../../Assets/Icons/timeicon.png')} // Replace with your timer icon
+                            style={styles.datePickerIcon}
+                        />
                     </TouchableOpacity>
                     {showDatePicker.uraZakljucka && (
                         <DateTimePicker
@@ -127,48 +153,25 @@ function EditAktivnost({ visible, onClose, onEdit, activity }) {
                         />
                     )}
 
-                    <TouchableOpacity onPress={() => setShowDatePicker({ ...showDatePicker, datumUraOpomnikaDate: true })}>
-                        <Text>Datum opomnika: {moment(datumUraOpomnika).format('DD.MM.YYYY')}</Text>
-                    </TouchableOpacity>
-                    {showDatePicker.datumUraOpomnikaDate && (
-                        <DateTimePicker
-                            value={datumUraOpomnika}
-                            mode="date"
-                            display="default"
-                            onChange={(event, selectedDate) => {
-                                if (selectedDate) {
-                                    setDatumUraOpomnika(new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate(), datumUraOpomnika.getHours(), datumUraOpomnika.getMinutes()));
-                                }
-                                setShowDatePicker({ ...showDatePicker, datumUraOpomnikaDate: false });
-                            }}
-                        />
-                    )}
-
-                    <TouchableOpacity onPress={() => setShowDatePicker({ ...showDatePicker, datumUraOpomnikaTime: true })}>
-                        <Text>Ura opomnika: {moment(datumUraOpomnika).format('HH:mm')}</Text>
-                    </TouchableOpacity>
-                    {showDatePicker.datumUraOpomnikaTime && (
-                        <DateTimePicker
-                            value={datumUraOpomnika}
-                            mode="time"
-                            display="default"
-                            onChange={(event, selectedTime) => {
-                                if (selectedTime) {
-                                    setDatumUraOpomnika(new Date(datumUraOpomnika.getFullYear(), datumUraOpomnika.getMonth(), datumUraOpomnika.getDate(), selectedTime.getHours(), selectedTime.getMinutes()));
-                                }
-                                setShowDatePicker({ ...showDatePicker, datumUraOpomnikaTime: false });
-                            }}
-                        />
-                    )}
-
 
                     {/* Save and Cancel Buttons */}
-                    <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-                        <Text style={styles.saveButtonText}>Save</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.cancelButton} onPress={onClose}>
-                        <Text style={styles.cancelButtonText}>Cancel</Text>
-                    </TouchableOpacity>
+                    <View style={styles.buttonsContainer}>
+                        <TouchableOpacity style={[styles.buttonContainer, styles.saveContainer]} onPress={handleSave}>
+                            <Image
+                                source={require('../../../Assets/Icons/saveaktivnost.png')} // Replace with your save image
+                                style={styles.buttonImage}
+                            />
+                            <Text style={styles.saveButtonText}>Save</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={[styles.buttonContainer, styles.cancelContainer]} onPress={onClose}>
+                            <Image
+                                source={require('../../../Assets/Icons/cancelaktivnost.png')} // Replace with your cancel image
+                                style={styles.buttonImage}
+                            />
+                            <Text style={styles.cancelButtonText}>Cancel</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </View>
         </Modal>

@@ -13,6 +13,7 @@ const styles = StyleSheet.create({
         marginTop: 2,
         height: 420,
         borderStyle: 'dashed',
+        flexDirection: 'row', // Display the time and activity containers in the same row
     },
 
     prikazDatuma: {
@@ -20,10 +21,12 @@ const styles = StyleSheet.create({
       paddingTop: 20,  
     },
 
+
     outerActivityContainer: {
+        flex: 1,
         borderWidth: 2,
         borderColor: 'rgba(0, 0, 0, 0.1)', // Semi-transparent black
-        marginBottom: 8,
+        marginBottom: 3,
         borderRadius: 10,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 4 },
@@ -31,6 +34,7 @@ const styles = StyleSheet.create({
         shadowRadius: 6,
         elevation: 6,
         backgroundColor: 'transparent', // Important for the gradient to show
+
     },
     
     activityContainer: {
@@ -40,6 +44,31 @@ const styles = StyleSheet.create({
         paddingVertical: 15,
         paddingRight: 15,
         borderRadius: 10, // Match the borderRadius with the outer container
+        width: 290 , // Set a fixed height (adjust as needed)
+    },
+    
+    activityRow: {
+        flexDirection: 'row',
+        marginVertical: 10,
+    },
+
+    activityTime: {
+        marginVertical: 3,
+        marginRight:3,
+     
+    },
+
+    // Update the styles for the time text container within the time container
+    timeTextContainer: {
+        margin: 7,
+    
+    
+    },
+
+    timeImage: {
+        height: 40,
+        width: 10,
+        marginTop: 3,
     },
     
 
@@ -60,7 +89,7 @@ const styles = StyleSheet.create({
     },
 
 
-    activityTime: {
+    timeImageContainer: {
         fontSize: 16,
         color: '#34495e', // Slightly different color for contrast
         textAlign: 'center',

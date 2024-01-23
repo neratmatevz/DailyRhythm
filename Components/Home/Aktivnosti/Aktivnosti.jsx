@@ -191,43 +191,53 @@ function Aktivnosti({ selectedDate, selectedweekday }) {
                     {/* Prikaz izbranega datuma */}
                     <ScrollView style={styles.container}>
                         {activities.map((activity) => (
-                            <View key={activity.id}>
-                                <View style={styles.activityTimeContainer}>
+                            <View key={activity.id} style={styles.activityRow}>
+
+                                <View style={styles.timeImageContainer}>
+                                    <Image source={require('../../../Assets/Icons/connecttime.png')} style={styles.timeImage} />
+                                </View>
+                                <View style={styles.timeTextContainer}>
                                     <Text style={styles.activityTime}>
-                                        {`${moment(activity.uraZacetka).format('HH:mm')} -- ${moment(activity.uraZakljucka).format('HH:mm')}`}
+                                        {moment(activity.uraZacetka).format('HH:mm')}
+                                    </Text>
+                                    <Text style={styles.activityTime}>
+                                        {moment(activity.uraZakljucka).format('HH:mm')}
                                     </Text>
                                 </View>
-                                <View key={activity.id} style={styles.outerActivityContainer}>
-                                <LinearGradient
-                                    colors={['#d3d3d3', '#f0f0f0', '#d3d3d3']} // Adjust gradient colors as needed
-                                    start={{ x: 0.5, y: 0 }}
-                                    end={{ x: 0.5, y: 1 }}
-                                    style={styles.activityContainer}
-                                >
-                                    <View style={styles.activityTextContainer}>
-                                        <TouchableOpacity onPress={() => handleActivityClick(activity)}>
-                                            <Text style={styles.activityText}>{`${activity.ime}`}</Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                    {/* GUMBI OPRAVLJENO, NEOPRAVLJENO, EDIT, DELETE */}
-                                    <View style={styles.buttonRow}>
-                                        <TouchableOpacity onPress={() => handleMarkAsDone(activity)}>
-                                            <Image source={require('../../../Assets/Icons/checkicon1.png')} style={styles.markDoneIcon} />
-                                        </TouchableOpacity>
-                                        <TouchableOpacity onPress={() => handleMarkAsUndone(activity)}>
-                                            <Image source={require('../../../Assets/Icons/crossicon1.png')} style={styles.markUndoneIcon} />
-                                        </TouchableOpacity>
-                                        <TouchableOpacity onPress={() => handleEditClick(activity, "edit")}>
-                                            <Image source={require('../../../Assets/Icons/editicon1.png')} style={styles.editButtonIcon} />
-                                        </TouchableOpacity>
-                                        <TouchableOpacity onPress={() => onDeleteActivity(activity.id)}>
-                                            <Image source={require('../../../Assets/Icons/deleteicon1.png')} style={styles.deleteButtonIcon} />
-                                        </TouchableOpacity>
-                                    </View>
 
-                                </LinearGradient>
+                                <View key={activity.id} style={styles.outerActivityContainer}>
+                                    <LinearGradient
+                                        colors={['#d3d3d3', '#f0f0f0', '#d3d3d3']} // Adjust gradient colors as needed
+                                        start={{ x: 0.5, y: 0 }}
+                                        end={{ x: 0.5, y: 1 }}
+                                        style={styles.activityContainer}
+                                    >
+                                        <View style={styles.activityTextContainer}>
+                                            <TouchableOpacity onPress={() => handleActivityClick(activity)}>
+                                                <Text style={styles.activityText}>{`${activity.ime}`}</Text>
+                                            </TouchableOpacity>
+                                        </View>
+                                        {/* GUMBI OPRAVLJENO, NEOPRAVLJENO, EDIT, DELETE */}
+                                        <View style={styles.buttonRow}>
+                                            <TouchableOpacity onPress={() => handleMarkAsDone(activity)}>
+                                                <Image source={require('../../../Assets/Icons/checkicon1.png')} style={styles.markDoneIcon} />
+                                            </TouchableOpacity>
+                                            <TouchableOpacity onPress={() => handleMarkAsUndone(activity)}>
+                                                <Image source={require('../../../Assets/Icons/crossicon1.png')} style={styles.markUndoneIcon} />
+                                            </TouchableOpacity>
+                                            <TouchableOpacity onPress={() => handleEditClick(activity, "edit")}>
+                                                <Image source={require('../../../Assets/Icons/editicon1.png')} style={styles.editButtonIcon} />
+                                            </TouchableOpacity>
+                                            <TouchableOpacity onPress={() => onDeleteActivity(activity.id)}>
+                                                <Image source={require('../../../Assets/Icons/deleteicon1.png')} style={styles.deleteButtonIcon} />
+                                            </TouchableOpacity>
+                                        </View>
+                                    </LinearGradient>
                                 </View>
+
                             </View>
+
+
                         ))}
                     </ScrollView>
                     {/* Gumb za dodajanje aktivnosti kontainer */}
