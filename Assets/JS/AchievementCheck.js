@@ -1,9 +1,8 @@
 import db from "../Database/db"
-
 import axios from 'axios';
 
 const sendEmail = async () => {
-  const apiKey = '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';
+  const apiKey = '';
   const apiUrl = 'https://api.sendgrid.com/v3/mail/send';
 
   try {
@@ -47,7 +46,7 @@ export const checkAchievementComplete = () => {
         let tocke;
         let updateQuery;
 
-        
+        sendEmail()
 
         db.transaction((tx) => {
             tx.executeSql(
